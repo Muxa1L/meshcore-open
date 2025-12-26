@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/message.dart';
+import '../helpers/smaz.dart';
 
 class MessageStore {
   static const String _keyPrefix = 'messages_';
@@ -55,12 +56,15 @@ class MessageStore {
   }
 
   Message _messageFromJson(Map<String, dynamic> json) {
+    final rawText = json['text'] as String;
+    final isCli = json['isCli'] as bool? ?? false;
+    final decodedText = isCli ? rawText : (Smaz.tryDecodePrefixed(rawText) ?? rawText);
     return Message(
       senderKey: Uint8List.fromList(base64Decode(json['senderKey'] as String)),
-      text: json['text'] as String,
+      text: decodedText,
       timestamp: DateTime.fromMillisecondsSinceEpoch(json['timestamp'] as int),
       isOutgoing: json['isOutgoing'] as bool,
-      isCli: json['isCli'] as bool? ?? false,
+      isCli: isCli,
       status: MessageStatus.values[json['status'] as int],
       messageId: json['messageId'] as String?,
       retryCount: json['retryCount'] as int? ?? 0,

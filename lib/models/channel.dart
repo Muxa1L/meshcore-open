@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import '../connector/meshcore_protocol.dart';
@@ -14,11 +13,11 @@ class Channel {
     required this.psk,
   });
 
-  String get pskBase64 => base64Encode(psk);
+  String get pskHex => _bytesToHex(psk);
 
   bool get isEmpty => name.isEmpty && psk.every((b) => b == 0);
 
-  bool get isPublicChannel => pskBase64 == publicChannelPsk;
+  bool get isPublicChannel => pskHex == publicChannelPsk;
 
   static Channel? fromFrame(Uint8List data) {
     // CHANNEL_INFO format:
@@ -44,14 +43,31 @@ class Channel {
     );
   }
 
-  static Channel fromPsk(int index, String name, String pskBase64) {
-    final pskBytes = base64Decode(pskBase64);
-    final psk = Uint8List(16);
-    for (int i = 0; i < pskBytes.length && i < 16; i++) {
-      psk[i] = pskBytes[i];
-    }
+  static Channel fromHex(int index, String name, String pskHex) {
+    final psk = parsePskHex(pskHex);
     return Channel(index: index, name: name, psk: psk);
   }
 
-  static const String publicChannelPsk = 'izOH6cXN6mrJ5e26oRXNcg==';
+  static Uint8List parsePskHex(String hex) {
+    final cleaned = hex.replaceAll(RegExp(r'[^0-9a-fA-F]'), '');
+    if (cleaned.length != 32) {
+      throw const FormatException('PSK must be 32 hex characters');
+    }
+    final bytes = Uint8List(16);
+    for (int i = 0; i < 16; i++) {
+      final start = i * 2;
+      bytes[i] = int.parse(cleaned.substring(start, start + 2), radix: 16);
+    }
+    return bytes;
+  }
+
+  static String formatPskHex(Uint8List psk) {
+    return _bytesToHex(psk);
+  }
+
+  static String _bytesToHex(Uint8List bytes) {
+    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+  }
+
+  static const String publicChannelPsk = '8b3387e9c5cdea6ac9e5edbaa115cd72';
 }

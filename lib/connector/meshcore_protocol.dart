@@ -86,6 +86,35 @@ const int pathHashSize = 1;
 const int maxNameSize = 32;
 const int maxFrameSize = 172;
 const int appProtocolVersion = 3;
+// Matches firmware MAX_TEXT_LEN (10 * CIPHER_BLOCK_SIZE).
+const int maxTextPayloadBytes = 160;
+const int _sendTextMsgOverheadBytes = 1 + 1 + 1 + 4 + 6 + 1;
+const int _sendChannelTextMsgOverheadBytes = 1 + 1 + 1 + 4 + 1;
+
+int maxContactMessageBytes() {
+  final byFrame = maxFrameSize - _sendTextMsgOverheadBytes;
+  return _minPositive(byFrame, maxTextPayloadBytes);
+}
+
+int maxChannelMessageBytes(String? senderName) {
+  final nameLength = _senderNameBytes(senderName);
+  final prefixBytes = nameLength + 2; // "<name>: "
+  final byPayload = maxTextPayloadBytes - prefixBytes;
+  final byFrame = maxFrameSize - _sendChannelTextMsgOverheadBytes;
+  return _minPositive(byPayload, byFrame);
+}
+
+int _senderNameBytes(String? senderName) {
+  if (senderName == null || senderName.isEmpty) return maxNameSize - 1;
+  final bytes = utf8.encode(senderName);
+  final maxBytes = maxNameSize - 1;
+  return bytes.length > maxBytes ? maxBytes : bytes.length;
+}
+
+int _minPositive(int a, int b) {
+  final minValue = a < b ? a : b;
+  return minValue < 0 ? 0 : minValue;
+}
 
 // Contact frame offsets
 const int contactPubKeyOffset = 1;
@@ -295,12 +324,16 @@ Uint8List buildRemoveContactFrame(Uint8List pubKey) {
 }
 
 // Build CMD_APP_START frame
-// Format: [cmd][reserved x7][app_name...]
-Uint8List buildAppStartFrame({String appName = 'MeshCoreOpen'}) {
+// Format: [cmd][app_ver][reserved x6][app_name...]
+Uint8List buildAppStartFrame({
+  String appName = 'MeshCoreOpen',
+  int appVersion = 1,
+}) {
   final nameBytes = utf8.encode(appName);
   final frame = Uint8List(8 + nameBytes.length + 1);
   frame[0] = cmdAppStart;
-  // bytes 1-7 are reserved (zeros)
+  frame[1] = appVersion;
+  // bytes 2-7 are reserved (zeros)
   frame.setRange(8, 8 + nameBytes.length, nameBytes);
   frame[frame.length - 1] = 0; // null terminator
   return frame;

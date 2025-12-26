@@ -35,7 +35,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
           canPop: false,
           child: Scaffold(
             appBar: AppBar(
-              title: Text(connector.device?.platformName ?? 'MeshCore Device'),
+              title: Text(connector.deviceDisplayName),
               centerTitle: true,
               automaticallyImplyLeading: false,
               actions: [
@@ -82,7 +82,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    connector.device?.platformName ?? 'Unknown Device',
+                    connector.deviceDisplayName,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    connector.device?.remoteId.toString() ?? '',
+                    connector.deviceIdLabel,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey[600],

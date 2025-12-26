@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import '../models/contact.dart';
 import '../connector/meshcore_connector.dart';
 import '../connector/meshcore_protocol.dart';

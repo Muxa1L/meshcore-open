@@ -76,7 +76,7 @@ class ScannerScreen extends StatelessWidget {
         statusColor = Colors.orange;
         break;
       case MeshCoreConnectionState.connected:
-        statusText = 'Connected to ${connector.device?.platformName}';
+        statusText = 'Connected to ${connector.deviceDisplayName}';
         statusColor = Colors.green;
         break;
       case MeshCoreConnectionState.disconnecting:
@@ -152,7 +152,10 @@ class ScannerScreen extends StatelessWidget {
     ScanResult result,
   ) async {
     try {
-      await connector.connect(result.device);
+      final name = result.device.platformName.isNotEmpty
+          ? result.device.platformName
+          : result.advertisementData.advName;
+      await connector.connect(result.device, displayName: name);
       
       if (context.mounted && connector.isConnected) {
         Navigator.push(

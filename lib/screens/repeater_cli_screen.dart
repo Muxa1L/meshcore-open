@@ -24,6 +24,7 @@ class RepeaterCliScreen extends StatefulWidget {
 
 class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
   final TextEditingController _commandController = TextEditingController();
+  final FocusNode _commandFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final List<Map<String, String>> _commandHistory = [];
   int _historyIndex = -1;
@@ -54,6 +55,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
     _frameSubscription?.cancel();
     _commandService?.dispose();
     _commandController.dispose();
+    _commandFocusNode.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -377,6 +379,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
             Expanded(
               child: TextField(
                 controller: _commandController,
+                focusNode: _commandFocusNode,
                 decoration: const InputDecoration(
                   hintText: 'Enter command...',
                   border: OutlineInputBorder(),
@@ -399,7 +402,284 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
     );
   }
 
+  void _applyHelpCommand(String command) {
+    _commandController.text = command;
+    _commandController.selection = TextSelection.fromPosition(
+      TextPosition(offset: command.length),
+    );
+    Navigator.pop(context);
+    Future.microtask(() {
+      if (mounted) {
+        _commandFocusNode.requestFocus();
+      }
+    });
+  }
+
   void _showCommandHelp(BuildContext context) {
+    final generalCommands = [
+      const _CommandHelpEntry(
+        command: 'advert',
+        description: 'Sends an advertisement packet',
+      ),
+      const _CommandHelpEntry(
+        command: 'reboot',
+        description:
+            "Reboots the device. (note, you'll prob get 'Timeout' which is normal)",
+      ),
+      const _CommandHelpEntry(
+        command: 'clock',
+        description: "Displays current time per device's clock.",
+      ),
+      const _CommandHelpEntry(
+        command: 'password {new-password}',
+        description: 'Sets a new admin password for the device.',
+      ),
+      const _CommandHelpEntry(
+        command: 'ver',
+        description: 'Shows the device version and firmware build date.',
+      ),
+      const _CommandHelpEntry(
+        command: 'clear stats',
+        description: 'Resets various stats counters to zero.',
+      ),
+    ];
+
+    final settingsCommands = [
+      const _CommandHelpEntry(
+        command: 'set af {air-time-factor}',
+        description: 'Sets the air-time-factor.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set tx {tx-power-dbm}',
+        description: 'Sets LoRa transmit power in dBm. (reboot to apply)',
+      ),
+      const _CommandHelpEntry(
+        command: 'set repeat {on|off}',
+        description: 'Enables or disables the repeater role for this node.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set allow.read.only {on|off}',
+        description:
+            "(Room server) If 'on', then login in blank password will be allowed, but cannot Post to room. (just read only)",
+      ),
+      const _CommandHelpEntry(
+        command: 'set flood.max {max-hops}',
+        description:
+            'Sets the maximum number of hops of inbound flood packet (if >= max, packet is not forwarded)',
+      ),
+      const _CommandHelpEntry(
+        command: 'set int.thresh {db}',
+        description:
+            'Sets the Interference Threshold (in DB). Default is 14. Set to 0 to disable channel interference detection.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set agc.reset.interval {seconds}',
+        description:
+            'Sets the interval to reset the Auto Gain Controller. Set to 0 to disable.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set multi.acks {0|1}',
+        description: "Enables or disables the 'double ACKs' feature.",
+      ),
+      const _CommandHelpEntry(
+        command: 'set advert.interval {minutes}',
+        description:
+            'Sets the timer interval in minutes to send a local (zero-hop) advertisement packet. Set to 0 to disable.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set flood.advert.interval {hours}',
+        description:
+            'Sets the timer interval in hours to send a flood advertisement packet. Set to 0 to disable.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set guest.password {guess-password}',
+        description:
+            'Sets/updates the guest password. (for repeaters, guest logins can send the "Get Stats" request)',
+      ),
+      const _CommandHelpEntry(
+        command: 'set name {name}',
+        description: 'Sets the advertisement name.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set lat {latitude}',
+        description: 'Sets the advertisement map latitude. (decimal degrees)',
+      ),
+      const _CommandHelpEntry(
+        command: 'set lon {longitude}',
+        description: 'Sets the advertisement map longitude. (decimal degrees)',
+      ),
+      const _CommandHelpEntry(
+        command: 'set radio {freq},{bw},{sf},{cr}',
+        description:
+            'Sets completely new radio params, and saves to preferences. Requires a "reboot" command to apply.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set rxdelay {base}',
+        description:
+            'Sets (experimental) base (must be > 1 for effect) for applying slight delay to received packets, based on signal strength/score. Set to 0 to disable.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set txdelay {factor}',
+        description:
+            'Sets a factor multiplied with time-on-air for a flood-mode packet and with a randomized slot system, to delay its forwarding. (to decrease likelihood of collisions)',
+      ),
+      const _CommandHelpEntry(
+        command: 'set direct.txdelay {factor}',
+        description:
+            'Same as txdelay, but for applying a random delay to the forwarding of direct-mode packets.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set bridge.enabled {on|off}',
+        description: 'Enable/Disable bridge.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set bridge.delay {0-10000}',
+        description: 'Set delay before retransmitting packets.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set bridge.source {rx|tx}',
+        description:
+            'Choose wether the bridge will retransmit received packets or transmitted packets.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set bridge.baud {speed}',
+        description: 'Set serial link baudrate for rs232 bridges.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set bridge.secret {shared-secret}',
+        description: 'Set bridge secret for espnow bridges.',
+      ),
+      const _CommandHelpEntry(
+        command: 'set adc.multiplier {factor}',
+        description:
+            'Sets custom factor to adjust reported battery voltage (only supported on select boards).',
+      ),
+      const _CommandHelpEntry(
+        command: 'tempradio {freq},{bw},{sf},{cr},{minutes}',
+        description:
+            'Sets temporary radio params for the given number of {minutes}, reverting to original radio params afterward. (does NOT save to preferences).',
+      ),
+      const _CommandHelpEntry(
+        command: 'setperm {pubkey-hex} {permissions}',
+        description:
+            'Modifies the ACL. Removes matching entry (by pubkey prefix) if "permissions" is zero. Adds new entry if pubkey-hex is full length and is not currently in ACL. Updates entry by matching pubkey prefix. Permission bits vary per firmware role, but low 2 bits are: 0 (Guest), 1 (Read only), 2 (Read write), 3 (Admin)',
+      ),
+    ];
+
+    final bridgeCommands = [
+      const _CommandHelpEntry(
+        command: 'get bridge.type',
+        description: 'Gets bridge type none, rs232, espnow',
+      ),
+    ];
+
+    final loggingCommands = [
+      const _CommandHelpEntry(
+        command: 'log start',
+        description: 'Starts packet logging to file system.',
+      ),
+      const _CommandHelpEntry(
+        command: 'log stop',
+        description: 'Stops packet logging to file system.',
+      ),
+      const _CommandHelpEntry(
+        command: 'log erase',
+        description: 'Erases the packet logs from file system.',
+      ),
+    ];
+
+    final neighborCommands = [
+      const _CommandHelpEntry(
+        command: 'neighbors',
+        description:
+            'Shows a list of other repeater nodes heard via zero-hop adverts. Each line is {id-prefix-hex}:{timestamp}:{snr-times-4}',
+      ),
+      const _CommandHelpEntry(
+        command: 'neighbor.remove {pubkey-prefix}',
+        description:
+            'Removes first matching entry (by pubkey prefix (hex)), from neighbors list.',
+      ),
+    ];
+
+    final regionCommands = [
+      const _CommandHelpEntry(
+        command: 'region',
+        description:
+            '(serial only) Lists all defined regions and current flood permissions.',
+      ),
+      const _CommandHelpEntry(
+        command: 'region load',
+        description:
+            'NOTE: this is a special multi-command invocation. Each subsequent command is a region name (indented with spaces to indicate parent hierarchy, with one space at minimum). Terminated by sending a blank line/command.',
+      ),
+      const _CommandHelpEntry(
+        command: 'region get {* | name-prefix}',
+        description:
+            'Searches for region with given name prefix (or "*" for the global scope). Replies with "-> {region-name} ({parent-name}) {\'F\'}"',
+      ),
+      const _CommandHelpEntry(
+        command: 'region put {name} {* | parent-name-prefix}',
+        description: 'Adds or updates a region definition with given name.',
+      ),
+      const _CommandHelpEntry(
+        command: 'region remove {name}',
+        description:
+            'Removes a region definition with given name. (must match exactly, and have no child regions)',
+      ),
+      const _CommandHelpEntry(
+        command: 'region allowf {* | name-prefix}',
+        description:
+            "Sets the 'F'lood permission for the given region. ('*' for the global/legacy scope)",
+      ),
+      const _CommandHelpEntry(
+        command: 'region denyf {* | name-prefix}',
+        description:
+            "Removes the 'F'lood permission for the given region. (NOTE: at this stage NOT advised to use this on the global/legacy scope!!)",
+      ),
+      const _CommandHelpEntry(
+        command: 'region home',
+        description:
+            "Replies with the current 'home' region. (Note applied anywhere yet, reserved for future)",
+      ),
+      const _CommandHelpEntry(
+        command: 'region home {* | name-prefix}',
+        description: "Sets the 'home' region.",
+      ),
+      const _CommandHelpEntry(
+        command: 'region save',
+        description: 'Persists the region list/map to storage.',
+      ),
+    ];
+
+    final gpsCommands = [
+      const _CommandHelpEntry(
+        command: 'gps',
+        description:
+            'Gives status of gps. When gps is off, it replies only off, if on it replies with on, {status}, {fix}, {sat count}',
+      ),
+      const _CommandHelpEntry(
+        command: 'gps {on|off}',
+        description: 'Toggles gps power state.',
+      ),
+      const _CommandHelpEntry(
+        command: 'gps sync',
+        description: 'Syncs node time with gps clock.',
+      ),
+      const _CommandHelpEntry(
+        command: 'gps setloc',
+        description: "Sets node's position to gps coordinates and save preferences.",
+      ),
+      const _CommandHelpEntry(
+        command: 'gps advert',
+        description:
+            "Gives location advert configuration of the node:\n- none: don't include location in adverts\n- share: share gps location (from SensorManager)\n- prefs: advert the location stored in preferences",
+      ),
+      const _CommandHelpEntry(
+        command: 'gps advert {none|share|prefs}',
+        description: 'Sets location advert configuration.',
+      ),
+    ];
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -414,85 +694,35 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
                 style: TextStyle(fontSize: 13),
               ),
               const SizedBox(height: 16),
-              _buildHelpSection('General', [
-                'advert - Sends an advertisement packet',
-                "reboot - Reboots the device. (note, you'll prob get 'Timeout' which is normal)",
-                "clock - Displays current time per device's clock.",
-                'password {new-password} - Sets a new admin password for the device.',
-                'ver - Shows the device version and firmware build date.',
-                'clear stats - Resets various stats counters to zero.',
-              ]),
+              _buildHelpSection(context, 'General', generalCommands),
               const SizedBox(height: 16),
-              _buildHelpSection('Settings', [
-                'set af {air-time-factor} - Sets the air-time-factor.',
-                'set tx {tx-power-dbm} - Sets LoRa transmit power in dBm. (reboot to apply)',
-                'set repeat {on|off} - Enables or disables the repeater role for this node.',
-                "set allow.read.only {on|off} - (Room server) If 'on', then login in blank password will be allowed, but cannot Post to room. (just read only)",
-                'set flood.max {max-hops} - Sets the maximum number of hops of inbound flood packet (if >= max, packet is not forwarded)',
-                'set int.thresh {db} - Sets the Interference Threshold (in DB). Default is 14. Set to 0 to disable channel interference detection.',
-                'set agc.reset.interval {seconds} - Sets the interval to reset the Auto Gain Controller. Set to 0 to disable.',
-                "set multi.acks {0|1} - Enables or disables the 'double ACKs' feature.",
-                'set advert.interval {minutes} - Sets the timer interval in minutes to send a local (zero-hop) advertisement packet. Set to 0 to disable.',
-                'set flood.advert.interval {hours} - Sets the timer interval in hours to send a flood advertisement packet. Set to 0 to disable.',
-                'set guest.password {guess-password} - Sets/updates the guest password. (for repeaters, guest logins can send the "Get Stats" request)',
-                'set name {name} - Sets the advertisement name.',
-                'set lat {latitude} - Sets the advertisement map latitude. (decimal degrees)',
-                'set lon {longitude} - Sets the advertisement map longitude. (decimal degrees)',
-                'set radio {freq},{bw},{sf},{cr} - Sets completely new radio params, and saves to preferences. Requires a "reboot" command to apply.',
-                'set rxdelay {base} - Sets (experimental) base (must be > 1 for effect) for applying slight delay to received packets, based on signal strength/score. Set to 0 to disable.',
-                'set txdelay {factor} - Sets a factor multiplied with time-on-air for a flood-mode packet and with a randomized slot system, to delay its forwarding. (to decrease likelihood of collisions)',
-                'set direct.txdelay {factor} - Same as txdelay, but for applying a random delay to the forwarding of direct-mode packets.',
-                'set bridge.enabled {on|off} - Enable/Disable bridge.',
-                'set bridge.delay {0-10000} - Set delay before retransmitting packets.',
-                'set bridge.source {rx|tx} - Choose wether the bridge will retransmit received packets or transmitted packets.',
-                'set bridge.baud {speed} - Set serial link baudrate for rs232 bridges.',
-                'set bridge.secret {shared-secret} - Set bridge secret for espnow bridges.',
-                'set adc.multiplier {factor} - Sets custom factor to adjust reported battery voltage (only supported on select boards).',
-                'tempradio {freq},{bw},{sf},{cr},{minutes} - Sets temporary radio params for the given number of {minutes}, reverting to original radio params afterward. (does NOT save to preferences).',
-                'setperm {pubkey-hex} {permissions} - Modifies the ACL. Removes matching entry (by pubkey prefix) if "permissions" is zero. Adds new entry if pubkey-hex is full length and is not currently in ACL. Updates entry by matching pubkey prefix. Permission bits vary per firmware role, but low 2 bits are: 0 (Guest), 1 (Read only), 2 (Read write), 3 (Admin)',
-              ]),
+              _buildHelpSection(context, 'Settings', settingsCommands),
               const SizedBox(height: 16),
-              _buildHelpSection('Bridge', [
-                'get bridge.type - Gets bridge type none, rs232, espnow',
-              ]),
+              _buildHelpSection(context, 'Bridge', bridgeCommands),
               const SizedBox(height: 16),
-              _buildHelpSection('Logging', [
-                'log start - Starts packet logging to file system.',
-                'log stop - Stops packet logging to file system.',
-                'log erase - Erases the packet logs from file system.',
-              ]),
+              _buildHelpSection(context, 'Logging', loggingCommands),
               const SizedBox(height: 16),
-              _buildHelpSection('Neighbors (Repeater only)', [
-                'neighbors - Shows a list of other repeater nodes heard via zero-hop adverts. Each line is {id-prefix-hex}:{timestamp}:{snr-times-4}',
-                'neighbor.remove {pubkey-prefix} - Removes first matching entry (by pubkey prefix (hex)), from neighbors list.',
-              ]),
+              _buildHelpSection(
+                context,
+                'Neighbors (Repeater only)',
+                neighborCommands,
+              ),
               const SizedBox(height: 16),
-              _buildHelpSection('Region Management (Repeater only)', [
-                'region commands have been introduced to manage region definitions and permissions.',
-                'region - (serial only) Lists all defined regions and current flood permissions.',
-                'region load - NOTE: this is a special multi-command invocation. Each subsequent command is a region name (indented with spaces to indicate parent hierarchy, with one space at minimum). Terminated by sending a blank line/command.',
-                "region get {* | name-prefix} - Searches for region with given name prefix (or '*' for the global scope). Replies with \"-> {region-name} ({parent-name}) {'F'}\"",
-                'region put {name} {* | parent-name-prefix} - Adds or updates a region definition with given name.',
-                'region remove {name} - Removes a region definition with given name. (must match exactly, and have no child regions)',
-                "region allowf {* | name-prefix} - Sets the 'F'lood permission for the given region. ('*' for the global/legacy scope)",
-                "region denyf {* | name-prefix} - Removes the 'F'lood permission for the given region. (NOTE: at this stage NOT advised to use this on the global/legacy scope!!)",
-                "region home - Replies with the current 'home' region. (Note applied anywhere yet, reserved for future)",
-                "region home {* | name-prefix} - Sets the 'home' region.",
-                'region save - Persists the region list/map to storage.',
-              ]),
+              _buildHelpSection(
+                context,
+                'Region Management (Repeater only)',
+                regionCommands,
+                note:
+                    'Region commands have been introduced to manage region definitions and permissions.',
+              ),
               const SizedBox(height: 16),
-              _buildHelpSection('GPS Management', [
-                'gps command has been introduced to manage location related topics.',
-                'gps - Gives status of gps. When gps is off, it replies only off, if on it replies with on, {status}, {fix}, {sat count}',
-                'gps {on|off} - Toggles gps power state.',
-                'gps sync - Syncs node time with gps clock.',
-                "gps setloc - Sets node's position to gps coordinates and save preferences.",
-                'gps advert - Gives location advert configuration of the node:',
-                "none: don't include location in adverts",
-                'share: share gps location (from SensorManager)',
-                'prefs: advert the location stored in preferences',
-                'gps advert {none|share|prefs} - Sets location advert configuration.',
-              ]),
+              _buildHelpSection(
+                context,
+                'GPS Management',
+                gpsCommands,
+                note:
+                    'gps command has been introduced to manage location related topics.',
+              ),
             ],
           ),
         ),
@@ -506,7 +736,12 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
     );
   }
 
-  Widget _buildHelpSection(String title, List<String> commands) {
+  Widget _buildHelpSection(
+    BuildContext context,
+    String title,
+    List<_CommandHelpEntry> commands, {
+    String? note,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -514,15 +749,68 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
           title,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
+        if (note != null) ...[
+          const SizedBox(height: 6),
+          Text(
+            note,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
         const SizedBox(height: 8),
-        ...commands.map((cmd) => Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 4),
-              child: Text(
-                '• $cmd',
-                style: const TextStyle(fontSize: 13, fontFamily: 'monospace'),
-              ),
-            )),
+        ...commands.map((entry) => _buildHelpCommandCard(context, entry)),
       ],
     );
   }
+
+  Widget _buildHelpCommandCard(BuildContext context, _CommandHelpEntry entry) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 8),
+      color: colorScheme.surfaceVariant,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: colorScheme.outlineVariant),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () => _applyHelpCommand(entry.command),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                entry.command,
+                style: TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                entry.description,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CommandHelpEntry {
+  final String command;
+  final String description;
+
+  const _CommandHelpEntry({
+    required this.command,
+    required this.description,
+  });
 }

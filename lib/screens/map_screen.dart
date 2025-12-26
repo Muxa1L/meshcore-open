@@ -852,7 +852,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   bool _isPublicChannel(Channel channel) {
-    return channel.pskBase64 == Channel.publicChannelPsk;
+    return channel.isPublicChannel;
   }
 
   Future<bool> _confirmPublicShare(BuildContext context, String channelLabel) async {

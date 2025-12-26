@@ -41,6 +41,7 @@ void main() async {
 
   // Load persisted channel messages
   await connector.loadAllChannelMessages();
+  await connector.loadUnreadState();
 
   runApp(MeshCoreApp(
     connector: connector,

@@ -277,7 +277,7 @@ class AppSettingsScreen extends StatelessWidget {
     AppSettingsService settingsService,
     MeshCoreConnector connector,
   ) {
-    final deviceId = connector.device?.remoteId.toString();
+    final deviceId = connector.deviceId;
     final isConnected = connector.isConnected && deviceId != null;
     final selection =
         isConnected ? settingsService.batteryChemistryForDevice(deviceId) : 'nmc';
@@ -298,7 +298,7 @@ class AppSettingsScreen extends StatelessWidget {
             title: const Text('Battery Chemistry'),
             subtitle: Text(
               isConnected
-                  ? 'Set per device (${connector.device!.platformName})'
+                  ? 'Set per device (${connector.deviceDisplayName})'
                   : 'Connect to a device to choose',
             ),
             trailing: DropdownButton<String>(

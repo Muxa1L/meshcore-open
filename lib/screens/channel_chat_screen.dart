@@ -1,15 +1,20 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
+import '../connector/meshcore_protocol.dart';
+import '../helpers/utf8_length_limiter.dart';
 import '../models/channel.dart';
 import '../models/channel_message.dart';
 import '../utils/emoji_utils.dart';
 import '../widgets/gif_message.dart';
 import '../widgets/gif_picker.dart';
+import 'channel_message_path_screen.dart';
 import 'map_screen.dart';
 
 class ChannelChatScreen extends StatefulWidget {
@@ -29,7 +34,17 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   final ScrollController _scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<MeshCoreConnector>().setActiveChannel(widget.channel.index);
+    });
+  }
+
+  @override
   void dispose() {
+    context.read<MeshCoreConnector>().setActiveChannel(null);
     _textController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -66,9 +81,17 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                         : widget.channel.name,
                     style: const TextStyle(fontSize: 16),
                   ),
-                  Text(
-                    widget.channel.isPublicChannel ? 'Public' : 'Private',
-                    style: const TextStyle(fontSize: 12),
+                  Consumer<MeshCoreConnector>(
+                    builder: (context, connector, _) {
+                      final unreadCount =
+                          connector.getUnreadCountForChannelIndex(widget.channel.index);
+                      final privacy = widget.channel.isPublicChannel ? 'Public' : 'Private';
+                      return Text(
+                        '$privacy • Unread: $unreadCount',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -158,7 +181,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
           ],
           Flexible(
             child: GestureDetector(
-              onLongPress: () => _showMessagePathInfo(message),
+              onTap: () => _showMessagePathInfo(message),
+              onLongPress: () => _showMessageActions(message),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 constraints: BoxConstraints(
@@ -383,6 +407,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   Widget _buildMessageComposer() {
+    final connector = context.watch<MeshCoreConnector>();
+    final maxBytes = maxChannelMessageBytes(connector.selfName);
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -432,6 +458,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
 
                 return TextField(
                   controller: _textController,
+                  inputFormatters: [
+                    Utf8LengthLimitingTextInputFormatter(maxBytes),
+                  ],
                   decoration: InputDecoration(
                     hintText: 'Type a message...',
                     border: OutlineInputBorder(
@@ -464,7 +493,16 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     final text = _textController.text.trim();
     if (text.isEmpty) return;
 
-    context.read<MeshCoreConnector>().sendChannelMessage(widget.channel, text);
+    final connector = context.read<MeshCoreConnector>();
+    final maxBytes = maxChannelMessageBytes(connector.selfName);
+    if (utf8.encode(text).length > maxBytes) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Message too long (max $maxBytes bytes).')),
+      );
+      return;
+    }
+
+    connector.sendChannelMessage(widget.channel, text);
     _textController.clear();
   }
 
@@ -480,65 +518,67 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   void _showMessagePathInfo(ChannelMessage message) {
-    final pathPrefixes =
-        message.pathBytes.isNotEmpty ? _formatPathPrefixes(message.pathBytes) : null;
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Packet Path'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDetailRow('Sender', message.senderName),
-            _buildDetailRow('Time', _formatTime(message.timestamp)),
-            _buildDetailRow('Repeats', message.repeatCount.toString()),
-            _buildDetailRow('Path', _formatPathLabel(message.pathLength)),
-            if (pathPrefixes != null) _buildDetailRow('Prefixes', pathPrefixes),
-            if (pathPrefixes == null) ...[
-              const SizedBox(height: 8),
-              const Text(
-                'Hop details are not provided for this packet.',
-                style: TextStyle(fontSize: 11, color: Colors.grey),
-              ),
-            ],
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChannelMessagePathScreen(message: message),
       ),
     );
   }
 
-  String _formatPathLabel(int? pathLength) {
-    if (pathLength == null) return 'Unknown';
-    if (pathLength < 0) return 'Flood';
-    if (pathLength == 0) return 'Direct';
-    return '$pathLength hops';
+  void _showMessageActions(ChannelMessage message) {
+    showModalBottomSheet(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.copy),
+              title: const Text('Copy'),
+              onTap: () {
+                Navigator.pop(sheetContext);
+                _copyMessageText(message.text);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline),
+              title: const Text('Delete'),
+              onTap: () async {
+                Navigator.pop(sheetContext);
+                await _deleteMessage(message);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.close),
+              title: const Text('Cancel'),
+              onTap: () => Navigator.pop(sheetContext),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _copyMessageText(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Message copied')),
+    );
+  }
+
+  Future<void> _deleteMessage(ChannelMessage message) async {
+    await context.read<MeshCoreConnector>().deleteChannelMessage(message);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Message deleted')),
+    );
   }
 
   String _formatPathPrefixes(Uint8List pathBytes) {
-    return pathBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join(',');
-  }
-
-  Widget _buildDetailRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 70,
-            child: Text(label, style: TextStyle(color: Colors.grey[600])),
-          ),
-          Expanded(child: Text(value)),
-        ],
-      ),
-    );
+    return pathBytes
+        .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
+        .join(',');
   }
 }
 

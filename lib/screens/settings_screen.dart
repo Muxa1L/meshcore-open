@@ -53,8 +53,8 @@ class SettingsScreen extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            _buildInfoRow('Name', connector.device?.platformName ?? 'Unknown'),
-            _buildInfoRow('ID', connector.device?.remoteId.toString() ?? 'Unknown'),
+            _buildInfoRow('Name', connector.deviceDisplayName),
+            _buildInfoRow('ID', connector.deviceIdLabel),
             _buildInfoRow('Status', connector.isConnected ? 'Connected' : 'Disconnected'),
             if (connector.selfName != null)
               _buildInfoRow('Node Name', connector.selfName!),

@@ -1,13 +1,19 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../connector/meshcore_connector.dart';
+import '../connector/meshcore_protocol.dart';
+import '../helpers/utf8_length_limiter.dart';
+import '../models/channel_message.dart';
 import '../models/contact.dart';
 import '../models/message.dart';
 import '../services/path_history_service.dart';
+import 'channel_message_path_screen.dart';
 import 'map_screen.dart';
 import '../utils/emoji_utils.dart';
 import '../widgets/gif_message.dart';
@@ -28,7 +34,17 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _forceFlood = false;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<MeshCoreConnector>().setActiveContact(widget.contact.publicKeyHex);
+    });
+  }
+
+  @override
   void dispose() {
+    context.read<MeshCoreConnector>().setActiveContact(null);
     _textController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -43,6 +59,8 @@ class _ChatScreenState extends State<ChatScreen> {
             final paths = pathService.getRecentPaths(widget.contact.publicKeyHex);
             final contact = _resolveContact(connector);
             final showRecentPath = paths.isNotEmpty && contact.pathLength >= 0;
+            final unreadCount = connector.getUnreadCountForContactKey(widget.contact.publicKeyHex);
+            final unreadLabel = 'Unread: $unreadCount';
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -53,19 +71,22 @@ class _ChatScreenState extends State<ChatScreen> {
                     behavior: HitTestBehavior.opaque,
                     onLongPress: () => _showFullPathDialog(context, paths.first.pathBytes),
                     child: Text(
-                      paths.first.displayText,
+                      '${paths.first.displayText} • $unreadLabel',
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 11, fontWeight: FontWeight.normal),
                     ),
                   )
                 else if (contact.pathLength >= 0)
                   Text(
-                    '${contact.pathLength} ${contact.pathLength == 1 ? 'hop' : 'hops'}',
+                    '${contact.pathLength} ${contact.pathLength == 1 ? 'hop' : 'hops'} • $unreadLabel',
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 11, fontWeight: FontWeight.normal),
                   )
                 else
-                  const Text(
-                    'No path',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.normal),
+                  Text(
+                    'No path • $unreadLabel',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.normal),
                   ),
               ],
             );
@@ -177,15 +198,15 @@ class _ChatScreenState extends State<ChatScreen> {
         return _MessageBubble(
           message: message,
           senderName: widget.contact.name,
-          onLongPress: message.isOutgoing && message.status == MessageStatus.failed
-              ? () => _showMessageRetry(context, message)
-              : null,
+          onTap: () => _openMessagePath(message),
+          onLongPress: () => _showMessageActions(message),
         );
       },
     );
   }
 
   Widget _buildInputBar(MeshCoreConnector connector) {
+    final maxBytes = maxContactMessageBytes();
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -231,6 +252,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   return TextField(
                     controller: _textController,
+                    inputFormatters: [
+                      Utf8LengthLimitingTextInputFormatter(maxBytes),
+                    ],
                     decoration: const InputDecoration(
                       hintText: 'Type a message...',
                       border: OutlineInputBorder(),
@@ -274,6 +298,14 @@ class _ChatScreenState extends State<ChatScreen> {
   void _sendMessage(MeshCoreConnector connector) {
     final text = _textController.text.trim();
     if (text.isEmpty) return;
+
+    final maxBytes = maxContactMessageBytes();
+    if (utf8.encode(text).length > maxBytes) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Message too long (max $maxBytes bytes).')),
+      );
+      return;
+    }
 
     connector.sendMessage(
       widget.contact,
@@ -543,30 +575,52 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _showContactInfo(BuildContext context) {
+    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    connector.ensureContactSmazSettingLoaded(widget.contact.publicKeyHex);
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(widget.contact.name),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildInfoRow('Type', widget.contact.typeLabel),
-            _buildInfoRow('Path', widget.contact.pathLabel),
-            if (widget.contact.hasLocation)
-              _buildInfoRow(
-                'Location',
-                '${widget.contact.latitude?.toStringAsFixed(4)}, ${widget.contact.longitude?.toStringAsFixed(4)}',
+      builder: (context) => Consumer<MeshCoreConnector>(
+        builder: (context, connector, _) {
+          final contact = _resolveContact(connector);
+          final smazEnabled = connector.isContactSmazEnabled(contact.publicKeyHex);
+
+          return AlertDialog(
+            title: Text(contact.name),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInfoRow('Type', contact.typeLabel),
+                  _buildInfoRow('Path', contact.pathLabel),
+                  if (contact.hasLocation)
+                    _buildInfoRow(
+                      'Location',
+                      '${contact.latitude?.toStringAsFixed(4)}, ${contact.longitude?.toStringAsFixed(4)}',
+                    ),
+                  _buildInfoRow('Public Key', contact.publicKeyHex.substring(0, 16) + '...'),
+                  const Divider(),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('SMAZ compression'),
+                    subtitle: const Text('Compress outgoing messages'),
+                    value: smazEnabled,
+                    onChanged: (value) {
+                      connector.setContactSmazEnabled(contact.publicKeyHex, value);
+                    },
+                  ),
+                ],
               ),
-            _buildInfoRow('Public Key', widget.contact.publicKeyHex.substring(0, 16) + '...'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -940,24 +994,84 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _showMessageRetry(BuildContext context, Message message) {
+  void _openMessagePath(Message message) {
+    final connector = context.read<MeshCoreConnector>();
+    final senderName =
+        message.isOutgoing ? (connector.selfName ?? 'Me') : widget.contact.name;
+    final pathMessage = ChannelMessage(
+      senderKey: null,
+      senderName: senderName,
+      text: message.text,
+      timestamp: message.timestamp,
+      isOutgoing: message.isOutgoing,
+      status: ChannelMessageStatus.sent,
+      repeatCount: 0,
+      pathLength: message.pathLength,
+      pathBytes: message.pathBytes,
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChannelMessagePathScreen(message: pathMessage),
+      ),
+    );
+  }
+
+  void _showMessageActions(Message message) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => SafeArea(
+      builder: (sheetContext) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.refresh),
-              title: const Text('Retry'),
+              leading: const Icon(Icons.copy),
+              title: const Text('Copy'),
               onTap: () {
-                Navigator.pop(context);
-                _retryMessage(message);
+                Navigator.pop(sheetContext);
+                _copyMessageText(message.text);
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline),
+              title: const Text('Delete'),
+              onTap: () async {
+                Navigator.pop(sheetContext);
+                await _deleteMessage(message);
+              },
+            ),
+            if (message.isOutgoing && message.status == MessageStatus.failed)
+              ListTile(
+                leading: const Icon(Icons.refresh),
+                title: const Text('Retry'),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _retryMessage(message);
+                },
+              ),
+            ListTile(
+              leading: const Icon(Icons.close),
+              title: const Text('Cancel'),
+              onTap: () => Navigator.pop(sheetContext),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _copyMessageText(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Message copied')),
+    );
+  }
+
+  Future<void> _deleteMessage(Message message) async {
+    await context.read<MeshCoreConnector>().deleteMessage(message);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Message deleted')),
     );
   }
 
@@ -977,11 +1091,13 @@ class _ChatScreenState extends State<ChatScreen> {
 class _MessageBubble extends StatelessWidget {
   final Message message;
   final String senderName;
+  final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
   const _MessageBubble({
     required this.message,
     required this.senderName,
+    this.onTap,
     this.onLongPress,
   });
 
@@ -1004,6 +1120,7 @@ class _MessageBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: GestureDetector(
+        onTap: onTap,
         onLongPress: onLongPress,
         child: Row(
           mainAxisAlignment: isOutgoing ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -1174,10 +1291,6 @@ class _MessageBubble extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _formatPathPrefixes(Uint8List pathBytes) {
-    return pathBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join(',');
   }
 
   Widget _buildAvatar(String senderName, ColorScheme colorScheme) {

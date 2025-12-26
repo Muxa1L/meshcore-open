@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -7,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
 import '../models/channel.dart';
+import '../widgets/unread_badge.dart';
 import 'channel_chat_screen.dart';
 
 class ChannelsScreen extends StatefulWidget {
@@ -99,6 +99,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
     MeshCoreConnector connector,
     Channel channel,
   ) {
+    final unreadCount = connector.getUnreadCountForChannel(channel);
     return Card(
       key: ValueKey('channel_${channel.index}'),
       child: ListTile(
@@ -129,6 +130,10 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (unreadCount > 0) ...[
+              UnreadBadge(count: unreadCount),
+              const SizedBox(width: 8),
+            ],
             IconButton(
               icon: const Icon(Icons.edit_outlined),
               onPressed: () => _showEditChannelDialog(context, connector, channel),
@@ -148,12 +153,15 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
             ),
           ],
         ),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChannelChatScreen(channel: channel),
-          ),
-        ),
+        onTap: () {
+          connector.markChannelRead(channel.index);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChannelChatScreen(channel: channel),
+            ),
+          );
+        },
       ),
     );
   }
@@ -225,7 +233,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
                   TextField(
                     controller: pskController,
                     decoration: InputDecoration(
-                      labelText: 'PSK (Base64)',
+                      labelText: 'PSK (Hex)',
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.casino),
@@ -236,7 +244,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
                           for (int i = 0; i < 16; i++) {
                             bytes[i] = random.nextInt(256);
                           }
-                          pskController.text = base64Encode(bytes);
+                          pskController.text = Channel.formatPskHex(bytes);
                         },
                       ),
                     ),
@@ -253,7 +261,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
             FilledButton(
               onPressed: () {
                 final name = nameController.text.trim();
-                final pskBase64 = usePublicPsk
+                final pskHex = usePublicPsk
                     ? Channel.publicChannelPsk
                     : pskController.text.trim();
 
@@ -266,14 +274,10 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
 
                 Uint8List psk;
                 try {
-                  final decoded = base64Decode(pskBase64);
-                  psk = Uint8List(16);
-                  for (int i = 0; i < decoded.length && i < 16; i++) {
-                    psk[i] = decoded[i];
-                  }
-                } catch (e) {
+                  psk = Channel.parsePskHex(pskHex);
+                } on FormatException {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invalid PSK format')),
+                    const SnackBar(content: Text('PSK must be 32 hex characters')),
                   );
                   return;
                 }
@@ -298,7 +302,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
     Channel channel,
   ) {
     final nameController = TextEditingController(text: channel.name);
-    final pskController = TextEditingController(text: channel.pskBase64);
+    final pskController = TextEditingController(text: channel.pskHex);
     bool smazEnabled = connector.isChannelSmazEnabled(channel.index);
 
     showDialog(
@@ -322,7 +326,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
                 TextField(
                   controller: pskController,
                   decoration: InputDecoration(
-                    labelText: 'PSK (Base64)',
+                    labelText: 'PSK (Hex)',
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.casino),
@@ -333,7 +337,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
                         for (int i = 0; i < 16; i++) {
                           bytes[i] = random.nextInt(256);
                         }
-                        pskController.text = base64Encode(bytes);
+                        pskController.text = Channel.formatPskHex(bytes);
                       },
                     ),
                   ),
@@ -356,18 +360,14 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
             FilledButton(
               onPressed: () {
                 final name = nameController.text.trim();
-                final pskBase64 = pskController.text.trim();
+                final pskHex = pskController.text.trim();
 
                 Uint8List psk;
                 try {
-                  final decoded = base64Decode(pskBase64);
-                  psk = Uint8List(16);
-                  for (int i = 0; i < decoded.length && i < 16; i++) {
-                    psk[i] = decoded[i];
-                  }
-                } catch (e) {
+                  psk = Channel.parsePskHex(pskHex);
+                } on FormatException {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invalid PSK format')),
+                    const SnackBar(content: Text('PSK must be 32 hex characters')),
                   );
                   return;
                 }
@@ -418,11 +418,7 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
   }
 
   void _addPublicChannel(BuildContext context, MeshCoreConnector connector) {
-    final psk = Uint8List(16);
-    final decoded = base64Decode(Channel.publicChannelPsk);
-    for (int i = 0; i < decoded.length && i < 16; i++) {
-      psk[i] = decoded[i];
-    }
+    final psk = Channel.parsePskHex(Channel.publicChannelPsk);
     connector.setChannel(0, 'Public', psk);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Public channel added')),

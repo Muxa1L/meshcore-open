@@ -7,6 +7,7 @@ import '../models/contact.dart';
 import '../models/contact_group.dart';
 import '../storage/contact_group_store.dart';
 import '../widgets/repeater_login_dialog.dart';
+import '../widgets/unread_badge.dart';
 import '../utils/emoji_utils.dart';
 import 'chat_screen.dart';
 import 'repeater_hub_screen.dart';
@@ -29,6 +30,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   ContactSortOption _sortOption = ContactSortOption.lastSeen;
+  bool _showUnreadOnly = false;
   final ContactGroupStore _groupStore = ContactGroupStore();
   List<ContactGroup> _groups = [];
 
@@ -167,6 +169,18 @@ class _ContactsScreenState extends State<ContactsScreen> {
             ],
           ),
           IconButton(
+            icon: Icon(
+              Icons.mark_chat_unread_outlined,
+              color: _showUnreadOnly ? Theme.of(context).primaryColor : null,
+            ),
+            tooltip: _showUnreadOnly ? 'Showing unread only' : 'Show unread only',
+            onPressed: () {
+              setState(() {
+                _showUnreadOnly = !_showUnreadOnly;
+              });
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.group_add),
             tooltip: 'New group',
             onPressed: () {
@@ -222,7 +236,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
           }
 
           final filteredAndSorted = _filterAndSortContacts(contacts, connector);
-          final filteredGroups = _filterAndSortGroups(_groups, contacts);
+          final filteredGroups =
+              _showUnreadOnly ? const <ContactGroup>[] : _filterAndSortGroups(_groups, contacts);
 
           return Column(
             children: [
@@ -265,7 +280,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
                             const SizedBox(height: 16),
                             Text(
-                              'No contacts or groups found',
+                              _showUnreadOnly
+                                  ? 'No unread contacts'
+                                  : 'No contacts or groups found',
                               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                             ),
                           ],
@@ -281,8 +298,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
                               return _buildGroupTile(context, group, contacts);
                             }
                             final contact = filteredAndSorted[index - filteredGroups.length];
+                            final unreadCount = connector.getUnreadCountForContact(contact);
                             return _ContactTile(
                               contact: contact,
+                              unreadCount: unreadCount,
                               onTap: () => _openChat(context, contact),
                               onLongPress: () => _showContactOptions(context, connector, contact),
                             );
@@ -323,6 +342,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
       if (_searchQuery.isEmpty) return true;
       return contact.name.toLowerCase().contains(_searchQuery);
     }).toList();
+
+    if (_showUnreadOnly) {
+      filtered = filtered.where((contact) {
+        return connector.getUnreadCountForContact(contact) > 0;
+      }).toList();
+    }
 
     switch (_sortOption) {
       case ContactSortOption.lastSeen:
@@ -399,6 +424,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     if (contact.type == advTypeRepeater) {
       _showRepeaterLogin(context, contact);
     } else {
+      context.read<MeshCoreConnector>().markContactRead(contact.publicKeyHex);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ChatScreen(contact: contact)),
@@ -702,11 +728,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
 class _ContactTile extends StatelessWidget {
   final Contact contact;
+  final int unreadCount;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
 
   const _ContactTile({
     required this.contact,
+    required this.unreadCount,
     required this.onTap,
     required this.onLongPress,
   });
@@ -724,6 +752,10 @@ class _ContactTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          if (unreadCount > 0) ...[
+            UnreadBadge(count: unreadCount),
+            const SizedBox(height: 4),
+          ],
           Text(
             _formatLastSeen(contact.lastSeen),
             style: TextStyle(fontSize: 12, color: Colors.grey[600]),

@@ -445,10 +445,10 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
       commands.add('set privacy ${_privacyMode ? "on" : "off"}');
 
       // Advertisement intervals
-      commands.add('set advert.interval ${_advertInterval}');
-      commands.add('set flood.advert.interval ${_floodAdvertInterval}');
+      commands.add('set advert.interval $_advertInterval');
+      commands.add('set flood.advert.interval $_floodAdvertInterval');
       if (_privacyMode) {
-        commands.add('set priv.advert.interval ${_privAdvertInterval}');
+        commands.add('set priv.advert.interval $_privAdvertInterval');
       }
 
       // Send all commands
@@ -661,7 +661,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
-              value: _bandwidth,
+              initialValue: _bandwidth,
               decoration: const InputDecoration(
                 labelText: 'Bandwidth',
                 border: OutlineInputBorder(),
@@ -683,7 +683,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
-              value: _spreadingFactor,
+              initialValue: _spreadingFactor,
               decoration: const InputDecoration(
                 labelText: 'Spreading Factor',
                 border: OutlineInputBorder(),
@@ -705,7 +705,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
-              value: _codingRate,
+              initialValue: _codingRate,
               decoration: const InputDecoration(
                 labelText: 'Coding Rate',
                 border: OutlineInputBorder(),
@@ -841,7 +841,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
             const Divider(),
             ListTile(
               title: const Text('Local Advertisement Interval'),
-              subtitle: Text('${_advertInterval} minutes'),
+              subtitle: Text('$_advertInterval minutes'),
               trailing: Text('${_advertInterval}m'),
             ),
             Slider(
@@ -860,7 +860,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
             const SizedBox(height: 16),
             ListTile(
               title: const Text('Flood Advertisement Interval'),
-              subtitle: Text('${_floodAdvertInterval} hours'),
+              subtitle: Text('$_floodAdvertInterval hours'),
               trailing: Text('${_floodAdvertInterval}h'),
             ),
             Slider(
@@ -880,7 +880,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
               const SizedBox(height: 16),
               ListTile(
                 title: const Text('Encrypted Advertisement Interval'),
-                subtitle: Text('${_privAdvertInterval} minutes'),
+                subtitle: Text('$_privAdvertInterval minutes'),
                 trailing: Text('${_privAdvertInterval}m'),
               ),
               Slider(

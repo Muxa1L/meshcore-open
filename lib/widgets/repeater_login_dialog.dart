@@ -156,8 +156,8 @@ class _RepeaterLoginDialogState extends State<RepeaterLoginDialog> {
     });
 
     final result = await completer.future;
-    timer?.cancel();
-    await subscription?.cancel();
+    timer.cancel();
+    await subscription.cancel();
     return result;
   }
 

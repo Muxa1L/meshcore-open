@@ -21,8 +21,10 @@ import '../services/notification_service.dart';
 import '../storage/channel_message_store.dart';
 import '../storage/channel_order_store.dart';
 import '../storage/channel_settings_store.dart';
+import '../storage/contact_settings_store.dart';
 import '../storage/contact_store.dart';
 import '../storage/message_store.dart';
+import '../storage/unread_store.dart';
 import 'meshcore_protocol.dart';
 
 class MeshCoreUuids {
@@ -44,6 +46,8 @@ class MeshCoreConnector extends ChangeNotifier {
   BluetoothDevice? _device;
   BluetoothCharacteristic? _rxCharacteristic;
   BluetoothCharacteristic? _txCharacteristic;
+  String? _deviceDisplayName;
+  String? _deviceId;
 
   final List<ScanResult> _scanResults = [];
   final List<Contact> _contacts = [];
@@ -95,14 +99,36 @@ class MeshCoreConnector extends ChangeNotifier {
   final MessageStore _messageStore = MessageStore();
   final ChannelOrderStore _channelOrderStore = ChannelOrderStore();
   final ChannelSettingsStore _channelSettingsStore = ChannelSettingsStore();
+  final ContactSettingsStore _contactSettingsStore = ContactSettingsStore();
   final ContactStore _contactStore = ContactStore();
+  final UnreadStore _unreadStore = UnreadStore();
   final Map<int, bool> _channelSmazEnabled = {};
+  final Map<String, bool> _contactSmazEnabled = {};
   final Set<String> _knownContactKeys = {};
+  final Map<String, int> _contactLastReadMs = {};
+  final Map<int, int> _channelLastReadMs = {};
+  String? _activeContactKey;
+  int? _activeChannelIndex;
   List<int> _channelOrder = [];
 
   // Getters
   MeshCoreConnectionState get state => _state;
   BluetoothDevice? get device => _device;
+  String? get deviceId => _deviceId;
+  String get deviceIdLabel => _deviceId ?? 'Unknown';
+  String get deviceDisplayName {
+    if (_selfName != null && _selfName!.isNotEmpty) {
+      return _selfName!;
+    }
+    final platformName = _device?.platformName;
+    if (platformName != null && platformName.isNotEmpty) {
+      return platformName;
+    }
+    if (_deviceDisplayName != null && _deviceDisplayName!.isNotEmpty) {
+      return _deviceDisplayName!;
+    }
+    return 'Unknown Device';
+  }
   List<ScanResult> get scanResults => List.unmodifiable(_scanResults);
   List<Contact> get contacts => List.unmodifiable(_contacts);
   List<Channel> get channels => List.unmodifiable(_channels);
@@ -162,6 +188,16 @@ class MeshCoreConnector extends ChangeNotifier {
     return _conversations[contact.publicKeyHex] ?? [];
   }
 
+  Future<void> deleteMessage(Message message) async {
+    final contactKeyHex = message.senderKeyHex;
+    final messages = _conversations[contactKeyHex];
+    if (messages == null) return;
+    final removed = messages.remove(message);
+    if (!removed) return;
+    await _messageStore.saveMessages(contactKeyHex, messages);
+    notifyListeners();
+  }
+
   Future<void> _loadMessagesForContact(String contactKeyHex) async {
     if (_loadedConversationKeys.contains(contactKeyHex)) return;
     _loadedConversationKeys.add(contactKeyHex);
@@ -177,13 +213,119 @@ class MeshCoreConnector extends ChangeNotifier {
     return _channelMessages[channel.index] ?? [];
   }
 
+  Future<void> deleteChannelMessage(ChannelMessage message) async {
+    final channelIndex = message.channelIndex;
+    if (channelIndex == null) return;
+    final messages = _channelMessages[channelIndex];
+    if (messages == null) return;
+    final removed = messages.remove(message);
+    if (!removed) return;
+    await _channelMessageStore.saveChannelMessages(channelIndex, messages);
+    notifyListeners();
+  }
+
+  int getUnreadCountForContact(Contact contact) {
+    if (contact.type == advTypeRepeater) return 0;
+    return getUnreadCountForContactKey(contact.publicKeyHex);
+  }
+
+  int getUnreadCountForContactKey(String contactKeyHex) {
+    if (!_shouldTrackUnreadForContactKey(contactKeyHex)) return 0;
+    final messages = _conversations[contactKeyHex];
+    if (messages == null || messages.isEmpty) return 0;
+    final lastReadMs = _contactLastReadMs[contactKeyHex] ?? 0;
+    var count = 0;
+    for (final message in messages) {
+      if (message.isOutgoing || message.isCli) continue;
+      if (message.timestamp.millisecondsSinceEpoch > lastReadMs) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  int getUnreadCountForChannel(Channel channel) {
+    return getUnreadCountForChannelIndex(channel.index);
+  }
+
+  int getUnreadCountForChannelIndex(int channelIndex) {
+    final messages = _channelMessages[channelIndex];
+    if (messages == null || messages.isEmpty) return 0;
+    final lastReadMs = _channelLastReadMs[channelIndex] ?? 0;
+    var count = 0;
+    for (final message in messages) {
+      if (message.isOutgoing) continue;
+      if (message.timestamp.millisecondsSinceEpoch > lastReadMs) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   bool isChannelSmazEnabled(int channelIndex) {
     return _channelSmazEnabled[channelIndex] ?? false;
+  }
+
+  bool isContactSmazEnabled(String contactKeyHex) {
+    return _contactSmazEnabled[contactKeyHex] ?? false;
+  }
+
+  void ensureContactSmazSettingLoaded(String contactKeyHex) {
+    _ensureContactSmazSettingLoaded(contactKeyHex);
+  }
+
+  Future<void> loadUnreadState() async {
+    _contactLastReadMs
+      ..clear()
+      ..addAll(await _unreadStore.loadContactLastRead());
+    _channelLastReadMs
+      ..clear()
+      ..addAll(await _unreadStore.loadChannelLastRead());
+    notifyListeners();
+  }
+
+  void setActiveContact(String? contactKeyHex) {
+    if (contactKeyHex != null && !_shouldTrackUnreadForContactKey(contactKeyHex)) {
+      _activeContactKey = null;
+      return;
+    }
+    _activeContactKey = contactKeyHex;
+    if (contactKeyHex != null) {
+      markContactRead(contactKeyHex);
+    }
+  }
+
+  void setActiveChannel(int? channelIndex) {
+    _activeChannelIndex = channelIndex;
+    if (channelIndex != null) {
+      markChannelRead(channelIndex);
+    }
+  }
+
+  void markContactRead(String contactKeyHex) {
+    if (!_shouldTrackUnreadForContactKey(contactKeyHex)) return;
+    final markMs = _calculateReadTimestampMs(
+      _conversations[contactKeyHex]?.map((m) => m.timestamp),
+    );
+    _setContactLastReadMs(contactKeyHex, markMs);
+  }
+
+  void markChannelRead(int channelIndex) {
+    final markMs = _calculateReadTimestampMs(
+      _channelMessages[channelIndex]?.map((m) => m.timestamp),
+    );
+    _setChannelLastReadMs(channelIndex, markMs);
   }
 
   Future<void> setChannelSmazEnabled(int channelIndex, bool enabled) async {
     _channelSmazEnabled[channelIndex] = enabled;
     await _channelSettingsStore.saveSmazEnabled(channelIndex, enabled);
+    notifyListeners();
+  }
+
+  Future<void> setContactSmazEnabled(String contactKeyHex, bool enabled) async {
+    _contactSmazEnabled[contactKeyHex] = enabled;
+    await _contactSettingsStore.saveSmazEnabled(contactKeyHex, enabled);
     notifyListeners();
   }
 
@@ -244,6 +386,9 @@ class MeshCoreConnector extends ChangeNotifier {
     _knownContactKeys
       ..clear()
       ..addAll(cached.map((c) => c.publicKeyHex));
+    for (final contact in cached) {
+      _ensureContactSmazSettingLoaded(contact.publicKeyHex);
+    }
   }
 
   Future<void> loadChannelSettings({int? maxChannels}) async {
@@ -262,10 +407,11 @@ class MeshCoreConnector extends ChangeNotifier {
     int timestampSeconds,
   ) async {
     if (!isConnected || text.isEmpty) return;
+    final outboundText = _prepareContactOutboundText(contact, text);
     await sendFrame(
       buildSendTextMsgFrame(
         contact.publicKey,
-        text,
+        outboundText,
         forceFlood: forceFlood,
         attempt: attempt,
         timestampSeconds: timestampSeconds,
@@ -354,7 +500,7 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
-  Future<void> connect(BluetoothDevice device) async {
+  Future<void> connect(BluetoothDevice device, {String? displayName}) async {
     if (_state == MeshCoreConnectionState.connecting ||
         _state == MeshCoreConnectionState.connected) {
       return;
@@ -363,6 +509,13 @@ class MeshCoreConnector extends ChangeNotifier {
     await stopScan();
     _setState(MeshCoreConnectionState.connecting);
     _device = device;
+    _deviceId = device.remoteId.toString();
+    if (displayName != null && displayName.trim().isNotEmpty) {
+      _deviceDisplayName = displayName.trim();
+    } else if (device.platformName.isNotEmpty) {
+      _deviceDisplayName = device.platformName;
+    }
+    notifyListeners();
 
     try {
       _connectionSubscription = device.connectionState.listen((state) {
@@ -418,6 +571,13 @@ class MeshCoreConnector extends ChangeNotifier {
       _setState(MeshCoreConnectionState.connected);
 
       await _requestDeviceInfo();
+      final gotSelfInfo = await _waitForSelfInfo(
+        timeout: const Duration(seconds: 3),
+      );
+      if (!gotSelfInfo) {
+        await refreshDeviceInfo();
+        await _waitForSelfInfo(timeout: const Duration(seconds: 3));
+      }
 
       // Keep device clock aligned on every connection.
       await syncTime();
@@ -426,6 +586,37 @@ class MeshCoreConnector extends ChangeNotifier {
       await disconnect();
       rethrow;
     }
+  }
+
+  Future<bool> _waitForSelfInfo({required Duration timeout}) async {
+    if (_selfPublicKey != null) return true;
+    if (!isConnected) return false;
+
+    final completer = Completer<bool>();
+    late final VoidCallback listener;
+    listener = () {
+      if (_selfPublicKey != null) {
+        if (!completer.isCompleted) {
+          completer.complete(true);
+        }
+      } else if (!isConnected) {
+        if (!completer.isCompleted) {
+          completer.complete(false);
+        }
+      }
+    };
+    addListener(listener);
+
+    final timer = Timer(timeout, () {
+      if (!completer.isCompleted) {
+        completer.complete(false);
+      }
+    });
+
+    final result = await completer.future;
+    timer.cancel();
+    removeListener(listener);
+    return result;
   }
 
   Future<void> disconnect() async {
@@ -450,6 +641,8 @@ class MeshCoreConnector extends ChangeNotifier {
     _device = null;
     _rxCharacteristic = null;
     _txCharacteristic = null;
+    _deviceDisplayName = null;
+    _deviceId = null;
     _contacts.clear();
     _conversations.clear();
     _loadedConversationKeys.clear();
@@ -507,6 +700,7 @@ class MeshCoreConnector extends ChangeNotifier {
     await sendFrame(buildAppStartFrame());
     await requestBatteryStatus(force: true);
     await sendFrame(buildGetRadioSettingsFrame());
+    _scheduleSelfInfoRetry();
   }
 
   Future<void> _requestDeviceInfo() async {
@@ -515,11 +709,25 @@ class MeshCoreConnector extends ChangeNotifier {
     await sendFrame(buildAppStartFrame());
     await requestBatteryStatus();
 
+    _scheduleSelfInfoRetry();
+  }
+
+  void _scheduleSelfInfoRetry() {
     _selfInfoRetryTimer?.cancel();
-    _selfInfoRetryTimer = Timer(const Duration(milliseconds: 3500), () {
-      if (!isConnected || !_awaitingSelfInfo) return;
-      sendFrame(buildAppStartFrame());
-    });
+    _selfInfoRetryTimer = Timer.periodic(
+      const Duration(milliseconds: 3500),
+      (timer) {
+        if (!isConnected) {
+          timer.cancel();
+          return;
+        }
+        if (!_awaitingSelfInfo) {
+          timer.cancel();
+          return;
+        }
+        unawaited(sendFrame(buildAppStartFrame()));
+      },
+    );
   }
 
   Future<void> getContacts({int? since, bool preserveExisting = false}) async {
@@ -606,7 +814,14 @@ class MeshCoreConnector extends ChangeNotifier {
       );
       _addMessage(contact.publicKeyHex, message);
       notifyListeners();
-      await sendFrame(buildSendTextMsgFrame(contact.publicKey, text, forceFlood: forceFlood));
+      final outboundText = _prepareContactOutboundText(contact, text);
+      await sendFrame(
+        buildSendTextMsgFrame(
+          contact.publicKey,
+          outboundText,
+          forceFlood: forceFlood,
+        ),
+      );
     }
   }
 
@@ -646,6 +861,10 @@ class MeshCoreConnector extends ChangeNotifier {
     unawaited(_persistContacts());
     _conversations.remove(contact.publicKeyHex);
     _loadedConversationKeys.remove(contact.publicKeyHex);
+    _contactLastReadMs.remove(contact.publicKeyHex);
+    unawaited(_unreadStore.saveContactLastRead(
+      Map<String, int>.from(_contactLastReadMs),
+    ));
     _messageStore.clearMessages(contact.publicKeyHex);
     notifyListeners();
   }
@@ -747,6 +966,10 @@ class MeshCoreConnector extends ChangeNotifier {
 
     // Delete by setting empty name and zero PSK
     await sendFrame(buildSetChannelFrame(index, '', Uint8List(16)));
+    _channelLastReadMs.remove(index);
+    unawaited(_unreadStore.saveChannelLastRead(
+      Map<int, int>.from(_channelLastReadMs),
+    ));
     // Refresh channels after deleting
     await getChannels();
   }
@@ -892,6 +1115,8 @@ class MeshCoreConnector extends ChangeNotifier {
       _selfName = readCString(frame, 58, frame.length - 58);
     }
     _awaitingSelfInfo = false;
+    _selfInfoRetryTimer?.cancel();
+    _selfInfoRetryTimer = null;
     notifyListeners();
 
     // Auto-fetch contacts after getting self info
@@ -995,6 +1220,12 @@ class MeshCoreConnector extends ChangeNotifier {
   void _handleContact(Uint8List frame) {
     final contact = Contact.fromFrame(frame);
     if (contact != null) {
+      if (contact.type == advTypeRepeater) {
+        _contactLastReadMs.remove(contact.publicKeyHex);
+        unawaited(_unreadStore.saveContactLastRead(
+          Map<String, int>.from(_contactLastReadMs),
+        ));
+      }
       // Check if this is a new contact
       final isNewContact = !_knownContactKeys.contains(contact.publicKeyHex);
       final existingIndex = _contacts.indexWhere(
@@ -1075,6 +1306,7 @@ class MeshCoreConnector extends ChangeNotifier {
         }
       }
       _addMessage(message.senderKeyHex, message);
+      _maybeMarkActiveContactRead(message);
       notifyListeners();
 
       // Show notification for new incoming message
@@ -1130,6 +1362,7 @@ class MeshCoreConnector extends ChangeNotifier {
       text = readCString(frame, baseTextOffset + 4, frame.length - (baseTextOffset + 4));
     }
     if (text.isEmpty) return null;
+    final decodedText = isCli ? text : (Smaz.tryDecodePrefixed(text) ?? text);
 
     final timestampRaw = readUint32LE(frame, timestampOffset);
     final pathLenByte = frame[pathLenOffset];
@@ -1142,7 +1375,7 @@ class MeshCoreConnector extends ChangeNotifier {
 
     return Message(
       senderKey: contact.publicKey,
-      text: text,
+      text: decodedText,
       timestamp: DateTime.fromMillisecondsSinceEpoch(timestampRaw * 1000),
       isOutgoing: false,
       isCli: isCli,
@@ -1160,6 +1393,24 @@ class MeshCoreConnector extends ChangeNotifier {
     return true;
   }
 
+  void _ensureContactSmazSettingLoaded(String contactKeyHex) {
+    if (_contactSmazEnabled.containsKey(contactKeyHex)) return;
+    _contactSettingsStore.loadSmazEnabled(contactKeyHex).then((enabled) {
+      if (_contactSmazEnabled[contactKeyHex] == enabled) return;
+      _contactSmazEnabled[contactKeyHex] = enabled;
+      notifyListeners();
+    });
+  }
+
+  String _prepareContactOutboundText(Contact contact, String text) {
+    final trimmed = text.trim();
+    final isStructuredPayload = trimmed.startsWith('g:') || trimmed.startsWith('m:');
+    if (!isStructuredPayload && isContactSmazEnabled(contact.publicKeyHex)) {
+      return Smaz.encodeIfSmaller(text);
+    }
+    return text;
+  }
+
   void _handleIncomingChannelMessage(Uint8List frame) {
     final message = ChannelMessage.fromFrame(frame);
     if (message != null && message.channelIndex != null) {
@@ -1167,6 +1418,7 @@ class MeshCoreConnector extends ChangeNotifier {
         return;
       }
       _addChannelMessage(message.channelIndex!, message);
+      _maybeMarkActiveChannelRead(message);
       notifyListeners();
       _handleQueuedMessageReceived();
     } else if (_isSyncingQueuedMessages) {
@@ -1219,6 +1471,7 @@ class MeshCoreConnector extends ChangeNotifier {
       );
 
       _addChannelMessage(channel.index, message);
+      _maybeMarkActiveChannelRead(message);
       notifyListeners();
       return;
     }
@@ -1313,6 +1566,75 @@ class MeshCoreConnector extends ChangeNotifier {
     _applyChannelOrder();
     await _channelOrderStore.saveChannelOrder(_channelOrder);
     notifyListeners();
+  }
+
+  bool _shouldTrackUnreadForContactKey(String contactKeyHex) {
+    final contact = _contacts.cast<Contact?>().firstWhere(
+      (c) => c?.publicKeyHex == contactKeyHex,
+      orElse: () => null,
+    );
+    if (contact == null) return true;
+    return contact.type != advTypeRepeater;
+  }
+
+  int _calculateReadTimestampMs(Iterable<DateTime>? timestamps) {
+    var latestMs = 0;
+    if (timestamps != null) {
+      for (final timestamp in timestamps) {
+        final ms = timestamp.millisecondsSinceEpoch;
+        if (ms > latestMs) {
+          latestMs = ms;
+        }
+      }
+    }
+    return latestMs;
+  }
+
+  void _setContactLastReadMs(String contactKeyHex, int timestampMs, {bool notify = true}) {
+    if (!_shouldTrackUnreadForContactKey(contactKeyHex)) return;
+    final existing = _contactLastReadMs[contactKeyHex] ?? 0;
+    if (timestampMs <= existing) return;
+    _contactLastReadMs[contactKeyHex] = timestampMs;
+    unawaited(_unreadStore.saveContactLastRead(
+      Map<String, int>.from(_contactLastReadMs),
+    ));
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  void _setChannelLastReadMs(int channelIndex, int timestampMs, {bool notify = true}) {
+    final existing = _channelLastReadMs[channelIndex] ?? 0;
+    if (timestampMs <= existing) return;
+    _channelLastReadMs[channelIndex] = timestampMs;
+    unawaited(_unreadStore.saveChannelLastRead(
+      Map<int, int>.from(_channelLastReadMs),
+    ));
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  void _maybeMarkActiveContactRead(Message message) {
+    if (message.isOutgoing || message.isCli) return;
+    if (_activeContactKey != message.senderKeyHex) return;
+    if (!_shouldTrackUnreadForContactKey(message.senderKeyHex)) return;
+    _setContactLastReadMs(
+      message.senderKeyHex,
+      message.timestamp.millisecondsSinceEpoch,
+      notify: false,
+    );
+  }
+
+  void _maybeMarkActiveChannelRead(ChannelMessage message) {
+    if (message.isOutgoing) return;
+    final channelIndex = message.channelIndex;
+    if (channelIndex == null || _activeChannelIndex != channelIndex) return;
+    _setChannelLastReadMs(
+      channelIndex,
+      message.timestamp.millisecondsSinceEpoch,
+      notify: false,
+    );
   }
 
   void _addMessage(String pubKeyHex, Message message) {
@@ -1525,6 +1847,8 @@ class MeshCoreConnector extends ChangeNotifier {
     _device = null;
     _rxCharacteristic = null;
     _txCharacteristic = null;
+    _deviceDisplayName = null;
+    _deviceId = null;
     _maxContacts = _defaultMaxContacts;
     _maxChannels = _defaultMaxChannels;
     _isSyncingQueuedMessages = false;
