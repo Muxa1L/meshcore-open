@@ -344,6 +344,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     final connector = context.read<MeshCoreConnector>();
     final isOwnNode = message.replyToSenderName == connector.selfName;
     final replyText = message.replyToText ?? '';
+    final colorScheme = Theme.of(context).colorScheme;
+    final previewTextColor = colorScheme.onSurface.withValues(alpha: 0.7);
 
     final gifId = _parseGifId(replyText);
     final poi = _parsePoiMessage(replyText);
@@ -352,17 +354,17 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     if (gifId != null) {
       contentPreview = Row(
         children: [
-          Icon(Icons.gif_box, size: 14, color: Colors.grey[600]),
+          Icon(Icons.gif_box, size: 14, color: previewTextColor),
           const SizedBox(width: 4),
-          Text('GIF', style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+          Text('GIF', style: TextStyle(fontSize: 12, color: previewTextColor)),
         ],
       );
     } else if (poi != null) {
       contentPreview = Row(
         children: [
-          Icon(Icons.location_on_outlined, size: 14, color: Colors.grey[600]),
+          Icon(Icons.location_on_outlined, size: 14, color: previewTextColor),
           const SizedBox(width: 4),
-          Text('Location', style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+          Text('Location', style: TextStyle(fontSize: 12, color: previewTextColor)),
         ],
       );
     } else {
@@ -372,7 +374,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: 12,
-          color: Colors.grey[700],
+          color: previewTextColor,
           fontStyle: FontStyle.italic,
         ),
       );
@@ -383,11 +385,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.05),
+          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(8),
           border: Border(
             left: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
+              color: colorScheme.primary,
               width: 3,
             ),
           ),

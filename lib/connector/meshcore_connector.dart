@@ -1955,10 +1955,19 @@ class MeshCoreConnector extends ChangeNotifier {
     // Parse reaction info
     final reactionInfo = Message.parseReaction(message.text);
     if (reactionInfo != null) {
-      // Find target message and add reaction
-      _processContactReaction(messages, reactionInfo);
-      _messageStore.saveMessages(pubKeyHex, messages);
-      notifyListeners();
+      // Check if we've already processed this exact reaction
+      final isDuplicate = messages.any((m) =>
+        m.text == message.text &&
+        m.senderKey == message.senderKey &&
+        m.timestamp.millisecondsSinceEpoch == message.timestamp.millisecondsSinceEpoch
+      );
+
+      if (!isDuplicate) {
+        // New reaction - process it
+        _processContactReaction(messages, reactionInfo);
+        _messageStore.saveMessages(pubKeyHex, messages);
+        notifyListeners();
+      }
       return; // Don't add reaction as a visible message
     }
 
@@ -2095,10 +2104,20 @@ class MeshCoreConnector extends ChangeNotifier {
     // Parse reaction info
     final reactionInfo = ChannelMessage.parseReaction(message.text);
     if (reactionInfo != null) {
-      // Find target message and add reaction
-      _processReaction(messages, reactionInfo);
-      // Save updated messages
-      _channelMessageStore.saveChannelMessages(channelIndex, messages);
+      // Check if we've already processed this exact reaction by looking for duplicate in messages
+      // Reaction messages are kept in the list but won't be displayed (filtered in UI or here)
+      final isDuplicate = messages.any((m) =>
+        m.text == message.text &&
+        m.senderName == message.senderName &&
+        m.timestamp.millisecondsSinceEpoch == message.timestamp.millisecondsSinceEpoch
+      );
+
+      if (!isDuplicate) {
+        // New reaction - process it
+        _processReaction(messages, reactionInfo);
+        // Save updated messages
+        _channelMessageStore.saveChannelMessages(channelIndex, messages);
+      }
       return false; // Don't add reaction as a visible message
     }
 
@@ -2302,8 +2321,8 @@ class MeshCoreConnector extends ChangeNotifier {
     _device = null;
     _rxCharacteristic = null;
     _txCharacteristic = null;
-    _deviceDisplayName = null;
-    _deviceId = null;
+    // Preserve deviceId and displayName for UI display during reconnection
+    // They're only cleared on manual disconnect via disconnect() method
     _maxContacts = _defaultMaxContacts;
     _maxChannels = _defaultMaxChannels;
     _isSyncingQueuedMessages = false;
