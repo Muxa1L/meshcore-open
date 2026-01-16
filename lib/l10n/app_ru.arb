@@ -1,0 +1,1144 @@
+{
+  "@@locale": "ru",
+
+  "appTitle": "MeshCore Open",
+
+  "nav_contacts": "Контакты",
+  "nav_channels": "Каналы",
+  "nav_map": "Карта",
+
+  "common_cancel": "Отмена",
+  "common_connect": "Подключить",
+  "common_unknownDevice": "Неизвестное устройство",
+  "common_save": "Сохранить",
+  "common_delete": "Удалить",
+  "common_close": "Закрыть",
+  "common_edit": "Изменить",
+  "common_add": "Добавить",
+  "common_settings": "Настройки",
+  "common_disconnect": "Отключить",
+  "common_connected": "Подключено",
+  "common_disconnected": "Отключено",
+  "common_create": "Создать",
+  "common_continue": "Продолжить",
+  "common_share": "Поделиться",
+  "common_copy": "Копировать",
+  "common_retry": "Повторить",
+  "common_hide": "Скрыть",
+  "common_remove": "Удалить",
+  "common_enable": "Включить",
+  "common_disable": "Выключить",
+  "common_reboot": "Перезагрузить",
+  "common_loading": "Загрузка...",
+  "common_notAvailable": "—",
+  "common_voltageValue": "{volts} В",
+  "@common_voltageValue": {
+    "placeholders": {
+      "volts": {"type": "String"}
+    }
+  },
+  "common_percentValue": "{percent}%",
+  "@common_percentValue": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+
+  "scanner_title": "MeshCore Open",
+  "scanner_scanning": "Поиск устройств...",
+  "scanner_connecting": "Подключение...",
+  "scanner_disconnecting": "Отключение...",
+  "scanner_notConnected": "Не подключено",
+  "scanner_connectedTo": "Подключено к {deviceName}",
+  "@scanner_connectedTo": {
+    "placeholders": {
+      "deviceName": {"type": "String"}
+    }
+  },
+  "scanner_searchingDevices": "Поиск устройств MeshCore...",
+  "scanner_tapToScan": "Нажмите «Сканировать» для поиска устройств",
+  "scanner_connectionFailed": "Ошибка подключения: {error}",
+  "@scanner_connectionFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "scanner_stop": "Стоп",
+  "scanner_scan": "Сканировать",
+
+  "device_quickSwitch": "Быстрое переключение",
+  "device_meshcore": "MeshCore",
+
+  "settings_title": "Настройки",
+  "settings_deviceInfo": "Об устройстве",
+  "settings_appSettings": "Настройки приложения",
+  "settings_appSettingsSubtitle": "Уведомления, сообщения и карта",
+  "settings_nodeSettings": "Настройки узла",
+  "settings_nodeName": "Имя узла",
+  "settings_nodeNameNotSet": "Не задано",
+  "settings_nodeNameHint": "Введите имя узла",
+  "settings_nodeNameUpdated": "Имя обновлено",
+  "settings_radioSettings": "Настройки радио",
+  "settings_radioSettingsSubtitle": "Частота, мощность, фактор расширения",
+  "settings_radioSettingsUpdated": "Настройки радио обновлены",
+  "settings_location": "Местоположение",
+  "settings_locationSubtitle": "GPS координаты",
+  "settings_locationUpdated": "Местоположение обновлено",
+  "settings_locationBothRequired": "Введите и широту, и долготу.",
+  "settings_locationInvalid": "Некорректная широта или долгота.",
+  "settings_latitude": "Широта",
+  "settings_longitude": "Долгота",
+  "settings_privacyMode": "Режим инкогнито",
+  "settings_privacyModeSubtitle": "Скрыть имя/позицию в эфире",
+  "settings_privacyModeToggle": "Включите режим инкогнито, чтобы скрыть ваше имя и местоположение в анонсах.",
+  "settings_privacyModeEnabled": "Режим инкогнито включен",
+  "settings_privacyModeDisabled": "Режим инкогнито выключен",
+  "settings_actions": "Действия",
+  "settings_sendAdvertisement": "Отправить анонс",
+  "settings_sendAdvertisementSubtitle": "Транслировать присутствие сейчас",
+  "settings_advertisementSent": "Анонс отправлен",
+  "settings_syncTime": "Синхронизировать время",
+  "settings_syncTimeSubtitle": "Установить время как на телефоне",
+  "settings_timeSynchronized": "Время синхронизировано",
+  "settings_refreshContacts": "Обновить контакты",
+  "settings_refreshContactsSubtitle": "Перезагрузить список контактов с устройства",
+  "settings_rebootDevice": "Перезагрузить устройство",
+  "settings_rebootDeviceSubtitle": "Перезапуск устройства MeshCore",
+  "settings_rebootDeviceConfirm": "Вы уверены, что хотите перезагрузить устройство? Соединение будет разорвано.",
+  "settings_debug": "Отладка",
+  "settings_bleDebugLog": "Лог отладки BLE",
+  "settings_bleDebugLogSubtitle": "Команды BLE, ответы и «сырые» данные",
+  "settings_appDebugLog": "Лог отладки приложения",
+  "settings_appDebugLogSubtitle": "Отладочные сообщения приложения",
+  "settings_about": "О программе",
+  "settings_aboutVersion": "MeshCore Open v{version}",
+  "@settings_aboutVersion": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "settings_aboutLegalese": "2026 Проект MeshCore Open Source",
+  "settings_aboutDescription": "Flutter-клиент с открытым исходным кодом для сетевых LoRa устройств MeshCore.",
+  "settings_infoName": "Имя",
+  "settings_infoId": "ID",
+  "settings_infoStatus": "Статус",
+  "settings_infoBattery": "Батарея",
+  "settings_infoPublicKey": "Публичный ключ",
+  "settings_infoContactsCount": "Кол-во контактов",
+  "settings_infoChannelCount": "Кол-во каналов",
+  "settings_presets": "Пресеты",
+  "settings_preset915Mhz": "915 МГц",
+  "settings_preset868Mhz": "868 МГц",
+  "settings_preset433Mhz": "433 МГц",
+  "settings_frequency": "Частота (МГц)",
+  "settings_frequencyHelper": "300.0 - 2500.0",
+  "settings_frequencyInvalid": "Неверная частота (300-2500 МГц)",
+  "settings_bandwidth": "Полоса пропускания (BW)",
+  "settings_spreadingFactor": "Фактор расширения (SF)",
+  "settings_codingRate": "Скорость кодирования (CR)",
+  "settings_txPower": "Мощность передачи (dBm)",
+  "settings_txPowerHelper": "0 - 22",
+  "settings_txPowerInvalid": "Неверная мощность (0-22 dBm)",
+  "settings_longRange": "Дальняя связь",
+  "settings_fastSpeed": "Высокая скорость",
+  "settings_error": "Ошибка: {message}",
+  "@settings_error": {
+    "placeholders": {
+      "message": {"type": "String"}
+    }
+  },
+
+  "appSettings_title": "Настройки приложения",
+  "appSettings_appearance": "Внешний вид",
+  "appSettings_theme": "Тема",
+  "appSettings_themeSystem": "Системная",
+  "appSettings_themeLight": "Светлая",
+  "appSettings_themeDark": "Темная",
+  "appSettings_language": "Язык",
+  "appSettings_languageSystem": "Системный",
+  "appSettings_languageEn": "English",
+  "appSettings_languageFr": "Français",
+  "appSettings_languageEs": "Español",
+  "appSettings_languageDe": "Deutsch",
+  "appSettings_languagePl": "Polski",
+  "appSettings_languageSl": "Slovenščina",
+  "appSettings_languagePt": "Português",
+  "appSettings_languageIt": "Italiano",
+  "appSettings_languageZh": "中文",
+  "appSettings_languageSv": "Svenska",
+  "appSettings_languageNl": "Nederlands",
+  "appSettings_languageSk": "Slovenčina",
+  "appSettings_languageBg": "Български",
+  "appSettings_notifications": "Уведомления",
+  "appSettings_enableNotifications": "Включить уведомления",
+  "appSettings_enableNotificationsSubtitle": "Получать уведомления о сообщениях и анонсах",
+  "appSettings_notificationPermissionDenied": "Доступ к уведомлениям запрещен",
+  "appSettings_notificationsEnabled": "Уведомления включены",
+  "appSettings_notificationsDisabled": "Уведомления выключены",
+  "appSettings_messageNotifications": "Личные сообщения",
+  "appSettings_messageNotificationsSubtitle": "Показывать уведомления при получении новых сообщений",
+  "appSettings_channelMessageNotifications": "Сообщения в каналах",
+  "appSettings_channelMessageNotificationsSubtitle": "Показывать уведомления для сообщений в каналах",
+  "appSettings_advertisementNotifications": "Анонсы узлов",
+  "appSettings_advertisementNotificationsSubtitle": "Уведомлять об обнаружении новых узлов",
+  "appSettings_messaging": "Обмен сообщениями",
+  "appSettings_clearPathOnMaxRetry": "Сброс маршрута при ошибках",
+  "appSettings_clearPathOnMaxRetrySubtitle": "Сбросить маршрут после 5 неудачных попыток отправки",
+  "appSettings_pathsWillBeCleared": "Маршруты будут сброшены после 5 неудач",
+  "appSettings_pathsWillNotBeCleared": "Маршруты не будут сбрасываться автоматически",
+  "appSettings_autoRouteRotation": "Авторотация маршрутов",
+  "appSettings_autoRouteRotationSubtitle": "Переключение между лучшими путями и режимом Flood",
+  "appSettings_autoRouteRotationEnabled": "Авторотация маршрутов включена",
+  "appSettings_autoRouteRotationDisabled": "Авторотация маршрутов выключена",
+  "appSettings_battery": "Батарея",
+  "appSettings_batteryChemistry": "Тип аккумулятора",
+  "appSettings_batteryChemistryPerDevice": "Настройка для ({deviceName})",
+  "@appSettings_batteryChemistryPerDevice": {
+    "placeholders": {
+      "deviceName": {"type": "String"}
+    }
+  },
+  "appSettings_batteryChemistryConnectFirst": "Подключитесь к устройству для выбора",
+  "appSettings_batteryNmc": "18650 NMC (3.0-4.2V)",
+  "appSettings_batteryLifepo4": "LiFePO4 (2.6-3.65V)",
+  "appSettings_batteryLipo": "LiPo (3.0-4.2V)",
+  "appSettings_mapDisplay": "Отображение карты",
+  "appSettings_showRepeaters": "Показывать ретрансляторы",
+  "appSettings_showRepeatersSubtitle": "Отображать узлы-репитеры на карте",
+  "appSettings_showChatNodes": "Показывать чат-узлы",
+  "appSettings_showChatNodesSubtitle": "Отображать обычные узлы на карте",
+  "appSettings_showOtherNodes": "Показывать другие узлы",
+  "appSettings_showOtherNodesSubtitle": "Отображать прочие типы узлов на карте",
+  "appSettings_timeFilter": "Фильтр по времени",
+  "appSettings_timeFilterShowAll": "Показывать все узлы",
+  "appSettings_timeFilterShowLast": "Показывать узлы за последние {hours} ч.",
+  "@appSettings_timeFilterShowLast": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+  "appSettings_mapTimeFilter": "Временной фильтр карты",
+  "appSettings_showNodesDiscoveredWithin": "Показывать узлы, обнаруженные за:",
+  "appSettings_allTime": "Все время",
+  "appSettings_lastHour": "Последний час",
+  "appSettings_last6Hours": "Последние 6 часов",
+  "appSettings_last24Hours": "Последние 24 часа",
+  "appSettings_lastWeek": "Последнюю неделю",
+  "appSettings_offlineMapCache": "Оффлайн кэш карты",
+  "appSettings_noAreaSelected": "Область не выбрана",
+  "appSettings_areaSelectedZoom": "Область выбрана (зум {minZoom}-{maxZoom})",
+  "@appSettings_areaSelectedZoom": {
+    "placeholders": {
+      "minZoom": {"type": "int"},
+      "maxZoom": {"type": "int"}
+    }
+  },
+  "appSettings_debugCard": "Отладка",
+  "appSettings_appDebugLogging": "Логирование приложения",
+  "appSettings_appDebugLoggingSubtitle": "Записывать отладочные сообщения для поиска проблем",
+  "appSettings_appDebugLoggingEnabled": "Логирование приложения включено",
+  "appSettings_appDebugLoggingDisabled": "Логирование приложения выключено",
+
+  "contacts_title": "Контакты",
+  "contacts_noContacts": "Контактов пока нет",
+  "contacts_contactsWillAppear": "Контакты появятся, когда устройства отправят анонс",
+  "contacts_searchContacts": "Поиск контактов...",
+  "contacts_noUnreadContacts": "Нет непрочитанных",
+  "contacts_noContactsFound": "Контакты или группы не найдены",
+  "contacts_deleteContact": "Удалить контакт",
+  "contacts_removeConfirm": "Удалить {contactName} из списка контактов?",
+  "@contacts_removeConfirm": {
+    "placeholders": {
+      "contactName": {"type": "String"}
+    }
+  },
+  "contacts_manageRepeater": "Управление репитером",
+  "contacts_roomLogin": "Вход в комнату",
+  "contacts_openChat": "Открыть чат",
+  "contacts_editGroup": "Изменить группу",
+  "contacts_deleteGroup": "Удалить группу",
+  "contacts_deleteGroupConfirm": "Удалить группу «{groupName}»?",
+  "@contacts_deleteGroupConfirm": {
+    "placeholders": {
+      "groupName": {"type": "String"}
+    }
+  },
+  "contacts_newGroup": "Новая группа",
+  "contacts_groupName": "Имя группы",
+  "contacts_groupNameRequired": "Имя группы обязательно",
+  "contacts_groupAlreadyExists": "Группа «{name}» уже существует",
+  "@contacts_groupAlreadyExists": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "contacts_filterContacts": "Фильтр...",
+  "contacts_noContactsMatchFilter": "Нет контактов по заданному фильтру",
+  "contacts_noMembers": "Нет участников",
+  "contacts_lastSeenNow": "В сети",
+  "contacts_lastSeenMinsAgo": "{minutes} мин. назад",
+  "@contacts_lastSeenMinsAgo": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "contacts_lastSeenHourAgo": "1 час назад",
+  "contacts_lastSeenHoursAgo": "{hours} ч. назад",
+  "@contacts_lastSeenHoursAgo": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+  "contacts_lastSeenDayAgo": "1 день назад",
+  "contacts_lastSeenDaysAgo": "{days} дн. назад",
+  "@contacts_lastSeenDaysAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+
+  "channels_title": "Каналы",
+  "channels_noChannelsConfigured": "Каналы не настроены",
+  "channels_addPublicChannel": "Добавить публичный канал",
+  "channels_searchChannels": "Поиск каналов...",
+  "channels_noChannelsFound": "Каналы не найдены",
+  "channels_channelIndex": "Канал {index}",
+  "@channels_channelIndex": {
+    "placeholders": {
+      "index": {"type": "int"}
+    }
+  },
+  "channels_hashtagChannel": "Хэштег-канал",
+  "channels_public": "Публичный",
+  "channels_private": "Приватный",
+  "channels_publicChannel": "Публичный канал",
+  "channels_privateChannel": "Приватный канал",
+  "channels_editChannel": "Изменить канал",
+  "channels_deleteChannel": "Удалить канал",
+  "channels_deleteChannelConfirm": "Удалить «{name}»? Это действие необратимо.",
+  "@channels_deleteChannelConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "channels_channelDeleted": "Канал «{name}» удален",
+  "@channels_channelDeleted": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "channels_addChannel": "Добавить канал",
+  "channels_channelIndexLabel": "Индекс канала",
+  "channels_channelName": "Имя канала",
+  "channels_usePublicChannel": "Использовать публичный канал",
+  "channels_standardPublicPsk": "Стандартный публичный PSK",
+  "channels_pskHex": "PSK (Hex)",
+  "channels_generateRandomPsk": "Сгенерировать случайный PSK",
+  "channels_enterChannelName": "Пожалуйста, введите имя канала",
+  "channels_pskMustBe32Hex": "PSK должен состоять из 32 hex-символов",
+  "channels_channelAdded": "Канал «{name}» добавлен",
+  "@channels_channelAdded": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "channels_editChannelTitle": "Изменить канал {index}",
+  "@channels_editChannelTitle": {
+    "placeholders": {
+      "index": {"type": "int"}
+    }
+  },
+  "channels_smazCompression": "Сжатие SMAZ",
+  "channels_channelUpdated": "Канал «{name}» обновлен",
+  "@channels_channelUpdated": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "channels_publicChannelAdded": "Публичный канал добавлен",
+  "channels_sortBy": "Сортировать по",
+  "channels_sortManual": "Вручную",
+  "channels_sortAZ": "А-Я",
+  "channels_sortLatestMessages": "Последним сообщениям",
+  "channels_sortUnread": "Непрочитанным",
+
+  "chat_noMessages": "Сообщений пока нет",
+  "chat_sendMessageToStart": "Отправьте сообщение, чтобы начать общение",
+  "chat_originalMessageNotFound": "Оригинальное сообщение не найдено",
+  "chat_replyingTo": "Ответ пользователю {name}",
+  "@chat_replyingTo": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "chat_replyTo": "Ответить {name}",
+  "@chat_replyTo": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "chat_location": "Местоположение",
+  "chat_sendMessageTo": "Написать {contactName}",
+  "@chat_sendMessageTo": {
+    "placeholders": {
+      "contactName": {"type": "String"}
+    }
+  },
+  "chat_typeMessage": "Введите сообщение...",
+  "chat_messageTooLong": "Сообщение слишком длинное (макс. {maxBytes} байт).",
+  "@chat_messageTooLong": {
+    "placeholders": {
+      "maxBytes": {"type": "int"}
+    }
+  },
+  "chat_messageCopied": "Сообщение скопировано",
+  "chat_messageDeleted": "Сообщение удалено",
+  "chat_retryingMessage": "Повторная отправка...",
+  "chat_retryCount": "Попытка {current}/{max}",
+  "@chat_retryCount": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+  "chat_sendGif": "Отправить GIF",
+  "chat_reply": "Ответить",
+  "chat_addReaction": "Добавить реакцию",
+  "chat_me": "Я",
+  "emojiCategorySmileys": "Смайлы",
+  "emojiCategoryGestures": "Жесты",
+  "emojiCategoryHearts": "Сердца",
+  "emojiCategoryObjects": "Объекты",
+  "gifPicker_title": "Выберите GIF",
+  "gifPicker_searchHint": "Поиск GIF...",
+  "gifPicker_poweredBy": "При поддержке GIPHY",
+  "gifPicker_noGifsFound": "GIF не найдены",
+  "gifPicker_failedLoad": "Не удалось загрузить GIF",
+  "gifPicker_failedSearch": "Ошибка поиска GIF",
+  "gifPicker_noInternet": "Нет подключения к интернету",
+  "debugLog_appTitle": "Лог приложения",
+  "debugLog_bleTitle": "Лог BLE",
+  "debugLog_copyLog": "Копировать лог",
+  "debugLog_clearLog": "Очистить лог",
+  "debugLog_copied": "Лог отладки скопирован",
+  "debugLog_bleCopied": "Лог BLE скопирован",
+  "debugLog_noEntries": "Логи отсутствуют",
+  "debugLog_enableInSettings": "Включите логирование в настройках",
+  "debugLog_frames": "Фреймы",
+  "debugLog_rawLogRx": "Сырой лог-RX",
+  "debugLog_noBleActivity": "Нет активности BLE",
+  "debugFrame_length": "Длина фрейма: {count} байт",
+  "@debugFrame_length": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "debugFrame_command": "Команда: 0x{value}",
+  "@debugFrame_command": {
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "debugFrame_textMessageHeader": "Фрейм текстового сообщения:",
+  "debugFrame_destinationPubKey": "- Публичный ключ получателя: {pubKey}",
+  "@debugFrame_destinationPubKey": {
+    "placeholders": {
+      "pubKey": {"type": "String"}
+    }
+  },
+  "debugFrame_timestamp": "- Временная метка: {timestamp}",
+  "@debugFrame_timestamp": {
+    "placeholders": {
+      "timestamp": {"type": "int"}
+    }
+  },
+  "debugFrame_flags": "- Флаги: 0x{value}",
+  "@debugFrame_flags": {
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "debugFrame_textType": "- Тип текста: {type} ({label})",
+  "@debugFrame_textType": {
+    "placeholders": {
+      "type": {"type": "int"},
+      "label": {"type": "String"}
+    }
+  },
+  "debugFrame_textTypeCli": "CLI",
+  "debugFrame_textTypePlain": "Текст",
+  "debugFrame_text": "- Текст: \"{text}\"",
+  "@debugFrame_text": {
+    "placeholders": {
+      "text": {"type": "String"}
+    }
+  },
+  "debugFrame_hexDump": "Hex-дамп:",
+  "chat_pathManagement": "Управление маршрутом",
+  "chat_routingMode": "Режим маршрутизации",
+  "chat_autoUseSavedPath": "Авто (сохраненный путь)",
+  "chat_forceFloodMode": "Принудительный Flood",
+  "chat_recentAckPaths": "Последние пути (нажмите для исп.):",
+  "chat_pathHistoryFull": "История путей заполнена. Удалите записи, чтобы добавить новые.",
+  "chat_hopSingular": "прыжок",
+  "chat_hopPlural": "прыжков",
+  "chat_hopsCount": "{count} {count, plural, =1{прыжок} few{прыжка} other{прыжков}}",
+  "@chat_hopsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "chat_successes": "успешно",
+  "chat_removePath": "Удалить путь",
+  "chat_noPathHistoryYet": "Истории путей пока нет.\nОтправьте сообщение для поиска путей.",
+  "chat_pathActions": "Действия с путем:",
+  "chat_setCustomPath": "Задать путь вручную",
+  "chat_setCustomPathSubtitle": "Указать маршрут через узлы",
+  "chat_clearPath": "Очистить путь",
+  "chat_clearPathSubtitle": "Обновить маршрут при следующей отправке",
+  "chat_pathCleared": "Путь очищен. Маршрут будет найден при следующей отправке.",
+  "chat_floodModeSubtitle": "Исп. переключатель в верхней панели",
+  "chat_floodModeEnabled": "Режим Flood включен. Выключите через иконку маршрутизации.",
+  "chat_fullPath": "Полный путь",
+  "chat_pathDetailsNotAvailable": "Детали пути недоступны. Попробуйте отправить сообщение.",
+  "chat_pathSetHops": "Путь задан: {hopCount} {hopCount, plural, =1{прыжок} few{прыжка} other{прыжков}} - {status}",
+  "@chat_pathSetHops": {
+    "placeholders": {
+      "hopCount": {"type": "int"},
+      "status": {"type": "String"}
+    }
+  },
+  "chat_pathSavedLocally": "Сохранено локально. Подключитесь для синхр.",
+  "chat_pathDeviceConfirmed": "Подтверждено устройством.",
+  "chat_pathDeviceNotConfirmed": "Устройство еще не подтвердило.",
+  "chat_type": "Тип",
+  "chat_path": "Путь",
+  "chat_publicKey": "Публичный ключ",
+  "chat_compressOutgoingMessages": "Сжимать исходящие сообщения",
+  "chat_floodForced": "Flood (принуд.)",
+  "chat_directForced": "Прямой (принуд.)",
+  "chat_hopsForced": "{count} прыжк. (принуд.)",
+  "@chat_hopsForced": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "chat_floodAuto": "Flood (авто)",
+  "chat_direct": "Прямой",
+  "chat_poiShared": "Точка (POI) отправлена",
+  "chat_unread": "Непрочитано: {count}",
+  "@chat_unread": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "map_title": "Карта узлов",
+  "map_noNodesWithLocation": "Нет данных о местоположении узлов",
+  "map_nodesNeedGps": "Узлы должны транслировать свои GPS координаты,\nчтобы появиться на карте",
+  "map_nodesCount": "Узлов: {count}",
+  "@map_nodesCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "map_pinsCount": "Меток: {count}",
+  "@map_pinsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "map_chat": "Чат",
+  "map_repeater": "Репитер",
+  "map_room": "Комната",
+  "map_sensor": "Датчик",
+  "map_pinDm": "Метка (ЛС)",
+  "map_pinPrivate": "Метка (Приват.)",
+  "map_pinPublic": "Метка (Публ.)",
+  "map_lastSeen": "Был в сети",
+  "map_disconnectConfirm": "Вы уверены, что хотите отключиться от этого устройства?",
+  "map_from": "От",
+  "map_source": "Источник",
+  "map_flags": "Флаги",
+  "map_shareMarkerHere": "Поставить метку здесь",
+  "map_pinLabel": "Название метки",
+  "map_label": "Метка",
+  "map_pointOfInterest": "Точка интереса",
+  "map_sendToContact": "Отправить контакту",
+  "map_sendToChannel": "Отправить в канал",
+  "map_noChannelsAvailable": "Нет доступных каналов",
+  "map_publicLocationShare": "Публичная геопозиция",
+  "map_publicLocationShareConfirm": "Вы собираетесь поделиться локацией в канале {channelLabel}. Этот канал публичный, её увидит любой с этим PSK ключом.",
+  "@map_publicLocationShareConfirm": {
+    "placeholders": {
+      "channelLabel": {"type": "String"}
+    }
+  },
+  "map_connectToShareMarkers": "Подключите устройство, чтобы делиться метками",
+  "map_filterNodes": "Фильтр узлов",
+  "map_nodeTypes": "Типы узлов",
+  "map_chatNodes": "Чаты",
+  "map_repeaters": "Репитеры",
+  "map_otherNodes": "Другие",
+  "map_keyPrefix": "Префикс ключа",
+  "map_filterByKeyPrefix": "Фильтр по префиксу ключа",
+  "map_publicKeyPrefix": "Префикс публ. ключа",
+  "map_markers": "Метки",
+  "map_showSharedMarkers": "Показывать общие метки",
+  "map_lastSeenTime": "Время последнего сеанса",
+  "map_sharedPin": "Общая метка",
+  "map_joinRoom": "Войти в комнату",
+  "map_manageRepeater": "Управление репитером",
+  "mapCache_title": "Оффлайн кэш карты",
+  "mapCache_selectAreaFirst": "Сначала выберите область",
+  "mapCache_noTilesToDownload": "Нет тайлов для загрузки в этой области",
+  "mapCache_downloadTilesTitle": "Загрузка тайлов",
+  "mapCache_downloadTilesPrompt": "Загрузить {count} тайлов для оффлайн использования?",
+  "@mapCache_downloadTilesPrompt": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mapCache_downloadAction": "Загрузить",
+  "mapCache_cachedTiles": "Закешировано тайлов: {count}",
+  "@mapCache_cachedTiles": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mapCache_cachedTilesWithFailed": "Закешировано {downloaded} тайлов ({failed} ошибок)",
+  "@mapCache_cachedTilesWithFailed": {
+    "placeholders": {
+      "downloaded": {"type": "int"},
+      "failed": {"type": "int"}
+    }
+  },
+  "mapCache_clearOfflineCacheTitle": "Очистить оффлайн кэш",
+  "mapCache_clearOfflineCachePrompt": "Удалить все сохраненные тайлы карты?",
+  "mapCache_offlineCacheCleared": "Оффлайн кэш очищен",
+  "mapCache_noAreaSelected": "Область не выбрана",
+  "mapCache_cacheArea": "Кэшировать область",
+  "mapCache_useCurrentView": "Текущий вид",
+  "mapCache_zoomRange": "Диапазон зума",
+  "mapCache_estimatedTiles": "Примерно тайлов: {count}",
+  "@mapCache_estimatedTiles": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mapCache_downloadedTiles": "Загружено {completed} / {total}",
+  "@mapCache_downloadedTiles": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "mapCache_downloadTilesButton": "Загрузить тайлы",
+  "mapCache_clearCacheButton": "Очистить кэш",
+  "mapCache_failedDownloads": "Ошибок загрузки: {count}",
+  "@mapCache_failedDownloads": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "mapCache_boundsLabel": "С {north}, Ю {south}, В {east}, З {west}",
+  "@mapCache_boundsLabel": {
+    "placeholders": {
+      "north": {"type": "String"},
+      "south": {"type": "String"},
+      "east": {"type": "String"},
+      "west": {"type": "String"}
+    }
+  },
+
+  "time_justNow": "Только что",
+  "time_minutesAgo": "{minutes}м назад",
+  "@time_minutesAgo": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "time_hoursAgo": "{hours}ч назад",
+  "@time_hoursAgo": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+  "time_daysAgo": "{days}дн назад",
+  "@time_daysAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "time_hour": "час",
+  "time_hours": "часа(ов)",
+  "time_day": "день",
+  "time_days": "дня(ей)",
+  "time_week": "неделя",
+  "time_weeks": "недели(ь)",
+  "time_month": "месяц",
+  "time_months": "месяца(ев)",
+  "time_minutes": "минут",
+  "time_allTime": "За все время",
+
+  "dialog_disconnect": "Отключение",
+  "dialog_disconnectConfirm": "Вы уверены, что хотите отключиться от устройства?",
+
+  "login_repeaterLogin": "Вход в репитер",
+  "login_roomLogin": "Вход в комнату",
+  "login_password": "Пароль",
+  "login_enterPassword": "Введите пароль",
+  "login_savePassword": "Сохранить пароль",
+  "login_savePasswordSubtitle": "Пароль будет надежно сохранен на этом устройстве",
+  "login_repeaterDescription": "Введите пароль репитера для доступа к настройкам и статусу.",
+  "login_roomDescription": "Введите пароль комнаты для доступа к настройкам и статусу.",
+  "login_routing": "Маршрутизация",
+  "login_routingMode": "Режим маршрутизации",
+  "login_autoUseSavedPath": "Авто (сохраненный путь)",
+  "login_forceFloodMode": "Принудительный Flood",
+  "login_managePaths": "Управление путями",
+  "login_login": "Войти",
+  "login_attempt": "Попытка {current}/{max}",
+  "@login_attempt": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+  "login_failed": "Ошибка входа: {error}",
+  "@login_failed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+
+  "common_reload": "Перезагрузить",
+  "common_clear": "Очистить",
+
+  "path_currentPath": "Текущий путь: {path}",
+  "@path_currentPath": {
+    "placeholders": {
+      "path": {"type": "String"}
+    }
+  },
+  "path_usingHopsPath": "Используется путь из {count} {count, plural, =1{прыжка} other{прыжков}}",
+  "@path_usingHopsPath": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "path_enterCustomPath": "Введите свой путь",
+  "path_currentPathLabel": "Текущий путь",
+  "path_hexPrefixInstructions": "Введите 2-символьные hex-префиксы для каждого узла через запятую.",
+  "path_hexPrefixExample": "Пример: A1,F2,3C (первый байт публичного ключа каждого узла)",
+  "path_labelHexPrefixes": "Путь (hex префиксы)",
+  "path_helperMaxHops": "Макс. 64 прыжка. Каждый префикс — 2 hex символа (1 байт)",
+  "path_selectFromContacts": "Или выберите из контактов:",
+  "path_noRepeatersFound": "Репитеры или серверы комнат не найдены.",
+  "path_customPathsRequire": "Для своих путей нужны промежуточные узлы, способные ретранслировать сообщения.",
+  "path_invalidHexPrefixes": "Неверные префиксы: {prefixes}",
+  "@path_invalidHexPrefixes": {
+    "placeholders": {
+      "prefixes": {"type": "String"}
+    }
+  },
+  "path_tooLong": "Путь слишком длинный. Максимум 64 прыжка.",
+  "path_setPath": "Установить путь",
+
+  "repeater_management": "Управление репитером",
+  "repeater_managementTools": "Инструменты управления",
+  "repeater_status": "Статус",
+  "repeater_statusSubtitle": "Статус репитера, статистика и соседи",
+  "repeater_telemetry": "Телеметрия",
+  "repeater_telemetrySubtitle": "Данные датчиков и системная статистика",
+  "repeater_cli": "CLI",
+  "repeater_cliSubtitle": "Отправка команд на репитер",
+  "repeater_settings": "Настройки",
+  "repeater_settingsSubtitle": "Настройка параметров репитера",
+
+  "repeater_statusTitle": "Статус репитера",
+  "repeater_routingMode": "Режим маршрутизации",
+  "repeater_autoUseSavedPath": "Авто (сохраненный путь)",
+  "repeater_forceFloodMode": "Принудительный Flood",
+  "repeater_pathManagement": "Управление путями",
+  "repeater_refresh": "Обновить",
+  "repeater_statusRequestTimeout": "Тайм-аут запроса статуса.",
+  "repeater_errorLoadingStatus": "Ошибка загрузки статуса: {error}",
+  "@repeater_errorLoadingStatus": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "repeater_systemInformation": "Системная информация",
+  "repeater_battery": "Батарея",
+  "repeater_clockAtLogin": "Время (при входе)",
+  "repeater_uptime": "Аптайм",
+  "repeater_queueLength": "Длина очереди",
+  "repeater_debugFlags": "Флаги отладки",
+  "repeater_radioStatistics": "Радио-статистика",
+  "repeater_lastRssi": "Посл. RSSI",
+  "repeater_lastSnr": "Посл. SNR",
+  "repeater_noiseFloor": "Уровень шума",
+  "repeater_txAirtime": "Эфирное время TX",
+  "repeater_rxAirtime": "Эфирное время RX",
+  "repeater_packetStatistics": "Статистика пакетов",
+  "repeater_sent": "Отправлено",
+  "repeater_received": "Получено",
+  "repeater_duplicates": "Дубликаты",
+  "repeater_daysHoursMinsSecs": "{days} дн. {hours}ч {minutes}м {seconds}с",
+  "@repeater_daysHoursMinsSecs": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"},
+      "seconds": {"type": "int"}
+    }
+  },
+  "repeater_packetTxTotal": "Всего: {total}, Flood: {flood}, Direct: {direct}",
+  "@repeater_packetTxTotal": {
+    "placeholders": {
+      "total": {"type": "int"},
+      "flood": {"type": "String"},
+      "direct": {"type": "String"}
+    }
+  },
+  "repeater_packetRxTotal": "Всего: {total}, Flood: {flood}, Direct: {direct}",
+  "@repeater_packetRxTotal": {
+    "placeholders": {
+      "total": {"type": "int"},
+      "flood": {"type": "String"},
+      "direct": {"type": "String"}
+    }
+  },
+  "repeater_duplicatesFloodDirect": "Flood: {flood}, Direct: {direct}",
+  "@repeater_duplicatesFloodDirect": {
+    "placeholders": {
+      "flood": {"type": "String"},
+      "direct": {"type": "String"}
+    }
+  },
+  "repeater_duplicatesTotal": "Всего: {total}",
+  "@repeater_duplicatesTotal": {
+    "placeholders": {
+      "total": {"type": "int"}
+    }
+  },
+
+  "repeater_settingsTitle": "Настройки репитера",
+  "repeater_basicSettings": "Основные настройки",
+  "repeater_repeaterName": "Имя репитера",
+  "repeater_repeaterNameHelper": "Имя для отображения",
+  "repeater_adminPassword": "Пароль администратора",
+  "repeater_adminPasswordHelper": "Пароль для полного доступа",
+  "repeater_guestPassword": "Гостевой пароль",
+  "repeater_guestPasswordHelper": "Пароль только для чтения",
+  "repeater_radioSettings": "Настройки радио",
+  "repeater_frequencyMhz": "Частота (МГц)",
+  "repeater_frequencyHelper": "300-2500 МГц",
+  "repeater_txPower": "Мощность передачи",
+  "repeater_txPowerHelper": "1-30 dBm",
+  "repeater_bandwidth": "Полоса (BW)",
+  "repeater_spreadingFactor": "SF",
+  "repeater_codingRate": "CR",
+  "repeater_locationSettings": "Настройки локации",
+  "repeater_latitude": "Широта",
+  "repeater_latitudeHelper": "В десятичных градусах (напр. 37.7749)",
+  "repeater_longitude": "Долгота",
+  "repeater_longitudeHelper": "В десятичных градусах (напр. -122.4194)",
+  "repeater_features": "Функции",
+  "repeater_packetForwarding": "Пересылка пакетов",
+  "repeater_packetForwardingSubtitle": "Разрешить репитеру пересылать пакеты",
+  "repeater_guestAccess": "Гостевой доступ",
+  "repeater_guestAccessSubtitle": "Разрешить гостевой вход (только чтение)",
+  "repeater_privacyMode": "Режим инкогнито",
+  "repeater_privacyModeSubtitle": "Скрыть имя/позицию в анонсах",
+  "repeater_advertisementSettings": "Настройки анонсов",
+  "repeater_localAdvertInterval": "Интервал локальных анонсов",
+  "repeater_localAdvertIntervalMinutes": "{minutes} минут",
+  "@repeater_localAdvertIntervalMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "repeater_floodAdvertInterval": "Интервал Flood-анонсов",
+  "repeater_floodAdvertIntervalHours": "{hours} часов",
+  "@repeater_floodAdvertIntervalHours": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+  "repeater_encryptedAdvertInterval": "Интервал зашифр. анонсов",
+  "repeater_dangerZone": "Опасная зона",
+  "repeater_rebootRepeater": "Перезагрузить репитер",
+  "repeater_rebootRepeaterSubtitle": "Перезапуск устройства",
+  "repeater_rebootRepeaterConfirm": "Вы уверены, что хотите перезагрузить репитер?",
+  "repeater_regenerateIdentityKey": "Пересоздать ключ идентификации",
+  "repeater_regenerateIdentityKeySubtitle": "Создать новую пару ключей",
+  "repeater_regenerateIdentityKeyConfirm": "Это создаст новую личность для репитера. Продолжить?",
+  "repeater_eraseFileSystem": "Очистить файловую систему",
+  "repeater_eraseFileSystemSubtitle": "Форматировать память репитера",
+  "repeater_eraseFileSystemConfirm": "ВНИМАНИЕ: Это удалит все данные на репитере. Действие необратимо!",
+  "repeater_eraseSerialOnly": "Очистка доступна только через серийную консоль.",
+  "repeater_commandSent": "Команда отправлена: {command}",
+  "@repeater_commandSent": {
+    "placeholders": {
+      "command": {"type": "String"}
+    }
+  },
+  "repeater_errorSendingCommand": "Ошибка отправки команды: {error}",
+  "@repeater_errorSendingCommand": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "repeater_confirm": "Подтвердить",
+  "repeater_settingsSaved": "Настройки успешно сохранены",
+  "repeater_errorSavingSettings": "Ошибка сохранения настроек: {error}",
+  "@repeater_errorSavingSettings": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "repeater_refreshBasicSettings": "Обновить осн. настройки",
+  "repeater_refreshRadioSettings": "Обновить радио-настройки",
+  "repeater_refreshTxPower": "Обновить мощность",
+  "repeater_refreshLocationSettings": "Обновить локацию",
+  "repeater_refreshPacketForwarding": "Обновить статус пересылки",
+  "repeater_refreshGuestAccess": "Обновить гост. доступ",
+  "repeater_refreshPrivacyMode": "Обновить реж. инкогнито",
+  "repeater_refreshAdvertisementSettings": "Обновить настр. анонсов",
+  "repeater_refreshed": "{label} обновлено",
+  "@repeater_refreshed": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "repeater_errorRefreshing": "Ошибка обновления {label}",
+  "@repeater_errorRefreshing": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+
+  "repeater_cliTitle": "CLI Репитера",
+  "repeater_debugNextCommand": "Отладка след. команды",
+  "repeater_commandHelp": "Справка по командам",
+  "repeater_clearHistory": "Очистить историю",
+  "repeater_noCommandsSent": "Команды еще не отправлялись",
+  "repeater_typeCommandOrUseQuick": "Введите команду или используйте быстрые кнопки",
+  "repeater_enterCommandHint": "Введите команду...",
+  "repeater_previousCommand": "Пред. команда",
+  "repeater_nextCommand": "След. команда",
+  "repeater_enterCommandFirst": "Сначала введите команду",
+  "repeater_cliCommandFrameTitle": "Фрейм команды CLI",
+  "repeater_cliCommandError": "Ошибка: {error}",
+  "@repeater_cliCommandError": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "repeater_cliQuickGetName": "Имя",
+  "repeater_cliQuickGetRadio": "Радио",
+  "repeater_cliQuickGetTx": "Мощность",
+  "repeater_cliQuickNeighbors": "Соседи",
+  "repeater_cliQuickVersion": "Версия",
+  "repeater_cliQuickAdvertise": "Анонс",
+  "repeater_cliQuickClock": "Часы",
+  "repeater_cliHelpAdvert": "Отправляет пакет анонса",
+  "repeater_cliHelpReboot": "Перезагружает устройство (тайм-аут после этого — норма)",
+  "repeater_cliHelpClock": "Показывает время на часах устройства.",
+  "repeater_cliHelpPassword": "Устанавливает новый пароль администратора.",
+  "repeater_cliHelpVersion": "Показывает версию устройства и дату сборки прошивки.",
+  "repeater_cliHelpClearStats": "Сбрасывает все счетчики статистики в ноль.",
+  "repeater_cliHelpSetAf": "Устанавливает air-time-factor.",
+  "repeater_cliHelpSetTx": "Устанавливает мощность передачи LoRa в dBm (нужна перезагрузка).",
+  "repeater_cliHelpSetRepeat": "Включает или выключает роль репитера для узла.",
+  "repeater_cliHelpSetAllowReadOnly": "(Сервер комнат) Если 'on', разрешен вход с пустым паролем (только чтение).",
+  "repeater_cliHelpSetFloodMax": "Макс. число прыжков для входящего flood-пакета.",
+  "repeater_cliHelpSetIntThresh": "Порог интерференции (в DB). По умолчанию 14. 0 — выкл.",
+  "repeater_cliHelpSetAgcResetInterval": "Интервал сброса Auto Gain Controller. 0 — выкл.",
+  "repeater_cliHelpSetMultiAcks": "Включает/выключает функцию 'double ACKs'.",
+  "repeater_cliHelpSetAdvertInterval": "Интервал (мин) локальных анонсов. 0 — выкл.",
+  "repeater_cliHelpSetFloodAdvertInterval": "Интервал (ч) flood-анонсов. 0 — выкл.",
+  "repeater_cliHelpSetGuestPassword": "Устанавливает гостевой пароль.",
+  "repeater_cliHelpSetName": "Устанавливает имя анонса.",
+  "repeater_cliHelpSetLat": "Устанавливает широту для карты.",
+  "repeater_cliHelpSetLon": "Устанавливает долготу для карты.",
+  "repeater_cliHelpSetRadio": "Устанавливает новые параметры радио. Требуется 'reboot'.",
+  "repeater_cliHelpSetRxDelay": "Задержка при приеме пакетов на основе уровня сигнала. 0 — выкл.",
+  "repeater_cliHelpSetTxDelay": "Множитель задержки для flood-пакетов (уменьшение коллизий).",
+  "repeater_cliHelpSetDirectTxDelay": "Задержка для direct-пакетов.",
+  "repeater_cliHelpSetBridgeEnabled": "Вкл/выкл мост.",
+  "repeater_cliHelpSetBridgeDelay": "Задержка перед переотправкой пакетов.",
+  "repeater_cliHelpSetBridgeSource": "Выбор источника пакетов для моста.",
+  "repeater_cliHelpSetBridgeBaud": "Скорость порта для RS232 мостов.",
+  "repeater_cliHelpSetBridgeSecret": "Секрет для мостов ESPNow.",
+  "repeater_cliHelpSetAdcMultiplier": "Множитель для коррекции напряжения батареи.",
+  "repeater_cliHelpTempRadio": "Временные настройки радио на N минут.",
+  "repeater_cliHelpSetPerm": "Управление ACL (списком доступа).",
+  "repeater_cliHelpGetBridgeType": "Тип моста: none, rs232, espnow",
+  "repeater_cliHelpLogStart": "Начать логирование пакетов в память.",
+  "repeater_cliHelpLogStop": "Остановить логирование пакетов.",
+  "repeater_cliHelpLogErase": "Очистить логи пакетов.",
+  "repeater_cliHelpNeighbors": "Список соседей, услышанных через анонсы.",
+  "repeater_cliHelpNeighborRemove": "Удалить запись из списка соседей.",
+  "repeater_cliHelpRegion": "Список регионов и прав на flood.",
+  "repeater_cliHelpRegionLoad": "Загрузка иерархии регионов (спец. команда).",
+  "repeater_cliHelpRegionGet": "Поиск региона по префиксу.",
+  "repeater_cliHelpRegionPut": "Добавить или обновить регион.",
+  "repeater_cliHelpRegionRemove": "Удалить регион.",
+  "repeater_cliHelpRegionAllowf": "Разрешить Flood для региона.",
+  "repeater_cliHelpRegionDenyf": "Запретить Flood для региона.",
+  "repeater_cliHelpRegionHome": "Показать текущий 'домашний' регион.",
+  "repeater_cliHelpRegionHomeSet": "Установить 'домашний' регион.",
+  "repeater_cliHelpRegionSave": "Сохранить карту регионов в память.",
+  "repeater_cliHelpGps": "Статус GPS (fix, спутники и т.д.).",
+  "repeater_cliHelpGpsOnOff": "Вкл/выкл питание GPS.",
+  "repeater_cliHelpGpsSync": "Синхр. времени узла по GPS.",
+  "repeater_cliHelpGpsSetLoc": "Установить позицию узла по координатам GPS.",
+  "repeater_cliHelpGpsAdvert": "Настройка передачи координат в анонсах.",
+  "repeater_cliHelpGpsAdvertSet": "Установить режим передачи координат.",
+  "repeater_commandsListTitle": "Список команд",
+  "repeater_commandsListNote": "ПРИМЕЧАНИЕ: для большинства команд 'set ...' есть парная команда 'get ...'.",
+  "repeater_general": "Общее",
+  "repeater_settingsCategory": "Настройки",
+  "repeater_bridge": "Мост",
+  "repeater_logging": "Логирование",
+  "repeater_neighborsRepeaterOnly": "Соседи (только репитер)",
+  "repeater_regionManagementRepeaterOnly": "Управление регионами (только репитер)",
+  "repeater_regionNote": "Команды регионов введены для управления правами и границами.",
+  "repeater_gpsManagement": "Управление GPS",
+  "repeater_gpsNote": "Команда GPS используется для работы с местоположением.",
+  "telemetry_receivedData": "Получена телеметрия",
+  "telemetry_requestTimeout": "Тайм-аут запроса телеметрии.",
+  "telemetry_errorLoading": "Ошибка загрузки телеметрии: {error}",
+  "@telemetry_errorLoading": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "telemetry_noData": "Данные телеметрии отсутствуют.",
+  "telemetry_channelTitle": "Канал {channel}",
+  "@telemetry_channelTitle": {
+    "placeholders": {
+      "channel": {"type": "int"}
+    }
+  },
+  "telemetry_batteryLabel": "Батарея",
+  "telemetry_voltageLabel": "Напряжение",
+  "telemetry_mcuTemperatureLabel": "Температура MCU",
+  "telemetry_temperatureLabel": "Температура",
+  "telemetry_currentLabel": "Ток",
+  "telemetry_batteryValue": "{percent}% / {volts} В",
+  "@telemetry_batteryValue": {
+    "placeholders": {
+      "percent": {"type": "int"},
+      "volts": {"type": "String"}
+    }
+  },
+  "telemetry_voltageValue": "{volts} В",
+  "@telemetry_voltageValue": {
+    "placeholders": {
+      "volts": {"type": "String"}
+    }
+  },
+  "telemetry_currentValue": "{amps} A",
+  "@telemetry_currentValue": {
+    "placeholders": {
+      "amps": {"type": "String"}
+    }
+  },
+  "telemetry_temperatureValue": "{celsius}°C / {fahrenheit}°F",
+  "@telemetry_temperatureValue": {
+    "placeholders": {
+      "celsius": {"type": "String"},
+      "fahrenheit": {"type": "String"}
+    }
+  },
+  "channelPath_title": "Путь пакета",
+  "channelPath_viewMap": "Карта",
+  "channelPath_otherObservedPaths": "Другие зафиксированные пути",
+  "channelPath_repeaterHops": "Прыжки через репитеры",
+  "channelPath_noHopDetails": "Детали прыжков для этого пакета отсутствуют.",
+  "channelPath_messageDetails": "Детали сообщения",
+  "channelPath_senderLabel": "Отправитель",
+  "channelPath_timeLabel": "Время",
+  "channelPath_repeatsLabel": "Повторы",
+  "channelPath_pathLabel": "Путь",
+  "channelPath_observedLabel": "Зафиксировано",
+  "channelPath_observedPathTitle": "Путь {index} • {hops}",
+  "@channelPath_observedPathTitle": {
+    "placeholders": {
+      "index": {"type": "int"},
+      "hops": {"type": "String"}
+    }
+  },
+  "channelPath_noLocationData": "Нет геоданных",
+  "channelPath_timeWithDate": "{day}/{month} {time}",
+  "@channelPath_timeWithDate": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "month": {"type": "int"},
+      "time": {"type": "String"}
+    }
+  },
+  "channelPath_timeOnly": "{time}",
+  "@channelPath_timeOnly": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "channelPath_unknownPath": "Неизвестно",
+  "channelPath_floodPath": "Flood",
+  "channelPath_directPath": "Прямой",
+  "channelPath_observedZeroOf": "0 из {total} прыжков",
+  "@channelPath_observedZeroOf": {
+    "placeholders": {
+      "total": {"type": "int"}
+    }
+  },
+  "channelPath_observedSomeOf": "{observed} из {total} прыжков",
+  "@channelPath_observedSomeOf": {
+    "placeholders": {
+      "observed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "channelPath_mapTitle": "Карта пути",
+  "channelPath_noRepeaterLocations": "Местоположение репитеров для этого пути неизвестно.",
+  "channelPath_primaryPath": "Путь {index} (Основной)",
+  "@channelPath_primaryPath": {
+    "placeholders": {
+      "index": {"type": "int"}
+    }
+  },
+  "channelPath_pathLabel": "Путь {index}",
+  "@channelPath_pathLabel": {
+    "placeholders": {
+      "index": {"type": "int"}
+    }
+  },
+  "channelPath_pathLabelTitle": "Путь",
+  "channelPath_observedPathHeader": "Зафиксированный путь",
+  "channelPath_selectedPathLabel": "{label} • {prefixes}",
+  "@channelPath_selectedPathLabel": {
+    "placeholders": {
+      "label": {"type": "String"},
+      "prefixes": {"type": "String"}
+    }
+  },
+  "channelPath_noHopDetailsAvailable": "Детали прыжков недоступны.",
+  "channelPath_unknownRepeater": "Неизвестный репитер",
+  "listFilter_tooltip": "Фильтр и сортировка",
+  "listFilter_sortBy": "Сортировать по",
+  "listFilter_latestMessages": "Последним сообщениям",
+  "listFilter_heardRecently": "Был в сети недавно",
+  "listFilter_az": "А-Я",
+  "listFilter_filters": "Фильтры",
+  "listFilter_all": "Все",
+  "listFilter_users": "Пользователи",
+  "listFilter_repeaters": "Репитеры",
+  "listFilter_roomServers": "Серверы комнат",
+  "listFilter_unreadOnly": "Только непрочитанные",
+  "listFilter_newGroup": "Новая группа"
+}
