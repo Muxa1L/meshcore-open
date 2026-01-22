@@ -24,6 +24,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get common_cancel => 'Prekliči';
 
   @override
+  String get common_ok => 'V redu';
+
+  @override
   String get common_connect => 'Poveži se';
 
   @override
@@ -199,6 +202,20 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get settings_locationInvalid =>
       'Neveljna zemeljska širina ali dolžina.';
+
+  @override
+  String get settings_locationGPSEnable => 'Omogoči GPS';
+
+  @override
+  String get settings_locationGPSEnableSubtitle =>
+      'Omogoči samodejno posodabljanje lokacije z GPS-jem.';
+
+  @override
+  String get settings_locationIntervalSec => 'Interval za GPS (Sekunde)';
+
+  @override
+  String get settings_locationIntervalInvalid =>
+      'Intervallo mora biti vsaj 60 sekund in manj kot 86400 sekund.';
 
   @override
   String get settings_latitude => 'Širina';
@@ -435,7 +452,7 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get appSettings_enableNotificationsSubtitle =>
-      'Prejmujte obvestila o sporočilih in oglasih';
+      'Prejmite obvestila o sporočilih in oglasih';
 
   @override
   String get appSettings_notificationPermissionDenied =>
@@ -631,7 +648,7 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get contacts_noContactsFound =>
-      'Niti ena osebe ali skupine ni najdena.';
+      'Niti ena oseba ali skupine ni najdena.';
 
   @override
   String get contacts_deleteContact => 'Izbrisati Kontakt';
@@ -643,6 +660,9 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get contacts_manageRepeater => 'Upravljajte Ponovitve';
+
+  @override
+  String get contacts_manageRoom => 'Upravljajte strežnik sobe';
 
   @override
   String get contacts_roomLogin => 'Vnos v sobo';
@@ -680,7 +700,7 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get contacts_noContactsMatchFilter =>
-      'Niti ena osebe ne ustreza vašemu kriteriju.';
+      'Niti ena oseba ne ustreza vašemu kriteriju.';
 
   @override
   String get contacts_noMembers => 'Nič članov.';
@@ -823,6 +843,45 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Nerešeno';
+
+  @override
+  String get channels_createPrivateChannel => 'Ustvari zasebno kanal.';
+
+  @override
+  String get channels_createPrivateChannelDesc =>
+      'Varno zaklenjeno s skrivnim ključem.';
+
+  @override
+  String get channels_joinPrivateChannel => 'Pridružite se zasebni skupini';
+
+  @override
+  String get channels_joinPrivateChannelDesc => 'Ročno vnesite zaporni ključ.';
+
+  @override
+  String get channels_joinPublicChannel => 'Pridružite se javnemu kanalu';
+
+  @override
+  String get channels_joinPublicChannelDesc =>
+      'Kdor karkoli je, lahko se pridruži tej skupini.';
+
+  @override
+  String get channels_joinHashtagChannel => 'Pridružite se Kanalu z Hashtagom';
+
+  @override
+  String get channels_joinHashtagChannelDesc =>
+      'Kdor karkoli, lahko se pridruži hashtag kanalom.';
+
+  @override
+  String get channels_scanQrCode => 'Skeniraj QR kodo';
+
+  @override
+  String get channels_scanQrCodeComingSoon => 'Prihajajoča';
+
+  @override
+  String get channels_enterHashtag => 'Vnesite hashtag';
+
+  @override
+  String get channels_hashtagHint => 'npr. #ekipa';
 
   @override
   String get chat_noMessages => 'Še ni sporočil.';
@@ -1139,6 +1198,24 @@ class AppLocalizationsSl extends AppLocalizations {
   }
 
   @override
+  String get chat_openLink => 'Odpreti povezavo?';
+
+  @override
+  String get chat_openLinkConfirmation =>
+      'Ali želite odpreti to povezavo v brskalniku?';
+
+  @override
+  String get chat_open => 'Odpri';
+
+  @override
+  String chat_couldNotOpenLink(String url) {
+    return 'Povezave ni bilo mogoče odpreti: $url';
+  }
+
+  @override
+  String get chat_invalidLink => 'Neveljavna oblika povezave';
+
+  @override
   String get map_title => 'Mapa omrežja';
 
   @override
@@ -1147,7 +1224,7 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get map_nodesNeedGps =>
-      'Omrežje morajo deliti svoje GPS koordinate,\nda se prikazajo na zemljeobrazniku.';
+      'Omrežje morajo deliti svoje GPS koordinate,\nda se prikazao na zemljeobrazniku.';
 
   @override
   String map_nodesCount(int count) {
@@ -1470,6 +1547,10 @@ class AppLocalizationsSl extends AppLocalizations {
   }
 
   @override
+  String get login_failedMessage =>
+      'Prijava je bila neuspešna. Geslo je napačno ali pa je repetitor nedosegljiv.';
+
+  @override
   String get common_reload => 'Ponovno naloži';
 
   @override
@@ -1538,6 +1619,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get repeater_management => 'Upravljanje ponovitve';
 
   @override
+  String get room_management => 'Upravljanje stremlišča';
+
+  @override
   String get repeater_managementTools => 'Upravne orodje';
 
   @override
@@ -1560,6 +1644,12 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get repeater_cliSubtitle =>
       'Pošlji ukazne povelje na ponovitveno enoto.';
+
+  @override
+  String get repeater_neighbours => 'Sosedi';
+
+  @override
+  String get repeater_neighboursSubtitle => 'Pogledati nič sosednjih hopjev.';
 
   @override
   String get repeater_settings => 'Nastavitve';
@@ -2243,6 +2333,34 @@ class AppLocalizationsSl extends AppLocalizations {
   }
 
   @override
+  String get neighbors_receivedData => 'Prejeto podatke o sosedih';
+
+  @override
+  String get neighbors_requestTimedOut =>
+      'Sosedi zahtevajo izklop po dogovoru.';
+
+  @override
+  String neighbors_errorLoading(String error) {
+    return 'Napaka pri obnašanju sosedov: $error';
+  }
+
+  @override
+  String get neighbors_repeatersNeighbours => 'Ponovitve Sosedi';
+
+  @override
+  String get neighbors_noData => 'Niso na voljo podatki o sosedih.';
+
+  @override
+  String neighbors_unknownContact(String pubkey) {
+    return 'Nepoznano $pubkey';
+  }
+
+  @override
+  String neighbors_heardAgo(String time) {
+    return 'Udeleženec je prejel sporočilo $time nazaj.';
+  }
+
+  @override
   String get channelPath_title => 'Pot do paketa';
 
   @override
@@ -2344,6 +2462,175 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Nepoznati ponovitelj';
+
+  @override
+  String get community_title => 'Skupnost';
+
+  @override
+  String get community_create => 'Ustvari skupnost';
+
+  @override
+  String get community_createDesc =>
+      'Ustvari novo skupnost in jo deli preko QR kode.';
+
+  @override
+  String get community_join => 'Pridružiti se';
+
+  @override
+  String get community_joinTitle => 'Pridružite se skupnosti';
+
+  @override
+  String community_joinConfirmation(String name) {
+    return 'Želiš se pridružiti skupnosti \"$name\"?';
+  }
+
+  @override
+  String get community_scanQr => 'Skeniraj QR kode skupnosti';
+
+  @override
+  String get community_scanInstructions =>
+      'Nasmerite kamero s skupnostnim QR kodom.';
+
+  @override
+  String get community_showQr => 'Pokaži QR kodo';
+
+  @override
+  String get community_publicChannel => 'Skupnostna javna';
+
+  @override
+  String get community_hashtagChannel => 'Skupnostni hashtag';
+
+  @override
+  String get community_name => 'Komunitarne ime';
+
+  @override
+  String get community_enterName => 'Vnesite ime skupnosti';
+
+  @override
+  String community_created(String name) {
+    return 'Skupnost \"$name\" je bila ustvarila.';
+  }
+
+  @override
+  String community_joined(String name) {
+    return 'Prilojen k skupnosti \"$name\"';
+  }
+
+  @override
+  String get community_qrTitle => 'Delite skupnost';
+
+  @override
+  String community_qrInstructions(String name) {
+    return 'Skenirajte to QR kodo za vključitev $name.';
+  }
+
+  @override
+  String get community_hashtagPrivacyHint =>
+      'Hashtag kanali skupnosti so dostopni samo članom skupnosti';
+
+  @override
+  String get community_invalidQrCode => 'Neveljaven QR koden skupnosti';
+
+  @override
+  String get community_alreadyMember => 'Že član';
+
+  @override
+  String community_alreadyMemberMessage(String name) {
+    return 'Kljub temu ste že član/ka $name.';
+  }
+
+  @override
+  String get community_addPublicChannel => 'Dodaj Objavni Kanal Komunitarja';
+
+  @override
+  String get community_addPublicChannelHint =>
+      'Samodejno dodaj javni kanal za to skupnost.';
+
+  @override
+  String get community_noCommunities => 'Še nobena skupnost se ni pridružila.';
+
+  @override
+  String get community_scanOrCreate =>
+      'Skenirajte QR kodo ali ustvarite skupnost za začetek.';
+
+  @override
+  String get community_manageCommunities => 'Upravljajte skupnosti';
+
+  @override
+  String get community_delete => 'Opusti skupnost';
+
+  @override
+  String community_deleteConfirm(String name) {
+    return 'Zapustiti \"$name\"?';
+  }
+
+  @override
+  String community_deleteChannelsWarning(int count) {
+    return 'To bo izbrisalo tudi $count kanal/kanalov in njihova sporočila.';
+  }
+
+  @override
+  String community_deleted(String name) {
+    return 'Zapustil skupnost \"$name\"';
+  }
+
+  @override
+  String get community_regenerateSecret => 'Preberi nov tajni kôd';
+
+  @override
+  String community_regenerateSecretConfirm(String name) {
+    return 'Preberite novo tajno geslo za \"$name\"? Vsi članici morajo prebrati novo QR kodo, da lahko nadaljujejo s komunikacijo.';
+  }
+
+  @override
+  String get community_regenerate => 'Preberi znova';
+
+  @override
+  String community_secretRegenerated(String name) {
+    return 'Tajna za \"$name\" ponovno ustvarjena';
+  }
+
+  @override
+  String get community_updateSecret => 'Ažurniraj tajno';
+
+  @override
+  String community_secretUpdated(String name) {
+    return 'Skrivnostno spremembo za \"$name\"';
+  }
+
+  @override
+  String community_scanToUpdateSecret(String name) {
+    return 'Skeniraj nov kôd QR za posodabljanje tajne za $name';
+  }
+
+  @override
+  String get community_addHashtagChannel => 'Dodaj Oznako Obštnine';
+
+  @override
+  String get community_addHashtagChannelDesc =>
+      'Dodajte hashtag kanal za to skupnost.';
+
+  @override
+  String get community_selectCommunity => 'Izberi skupnost';
+
+  @override
+  String get community_regularHashtag => 'Oznaka s hashtagom';
+
+  @override
+  String get community_regularHashtagDesc =>
+      'javna oznaka (kateri koli lahko sodelujejo)';
+
+  @override
+  String get community_communityHashtag => 'Skupnostni hashtag';
+
+  @override
+  String get community_communityHashtagDesc =>
+      'Izključeno za uporabnike skupnosti';
+
+  @override
+  String community_forCommunity(String name) {
+    return 'Za $name';
+  }
 
   @override
   String get listFilter_tooltip => 'Filtri in vrstiči';

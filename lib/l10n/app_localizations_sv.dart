@@ -24,6 +24,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get common_cancel => 'Avbryt';
 
   @override
+  String get common_ok => 'Okej';
+
+  @override
   String get common_connect => 'Anslut';
 
   @override
@@ -198,6 +201,20 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get settings_locationInvalid => 'Ogiltig latitud eller longitud.';
+
+  @override
+  String get settings_locationGPSEnable => 'Aktivera GPS';
+
+  @override
+  String get settings_locationGPSEnableSubtitle =>
+      'Aktivera automatiska uppdateringar av platsen med hjälp av GPS.';
+
+  @override
+  String get settings_locationIntervalSec => 'Interval för GPS (Sekunder)';
+
+  @override
+  String get settings_locationIntervalInvalid =>
+      'Intervalet måste vara minst 60 sekunder och mindre än 86400 sekunder.';
 
   @override
   String get settings_latitude => 'Latitud';
@@ -639,6 +656,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get contacts_manageRepeater => 'Hantera Upprepare';
 
   @override
+  String get contacts_manageRoom => 'Hantera Rumserver';
+
+  @override
   String get contacts_roomLogin => 'Rum Inloggning';
 
   @override
@@ -816,6 +836,46 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Oläst';
+
+  @override
+  String get channels_createPrivateChannel => 'Skapa en privat kanal';
+
+  @override
+  String get channels_createPrivateChannelDesc =>
+      'Skyddat med en hemlig nyckel.';
+
+  @override
+  String get channels_joinPrivateChannel => 'Gå med i en Privat Kanal';
+
+  @override
+  String get channels_joinPrivateChannelDesc =>
+      'Ange en hemlig nyckel manuellt.';
+
+  @override
+  String get channels_joinPublicChannel => 'Gå med i den Offentliga Kanalen';
+
+  @override
+  String get channels_joinPublicChannelDesc =>
+      'Vem som helst kan gå med i denna kanal.';
+
+  @override
+  String get channels_joinHashtagChannel => 'Gå med i en Hashtagkanal';
+
+  @override
+  String get channels_joinHashtagChannelDesc =>
+      'Väldigt enkelt att gå med i hashtag-kanaler.';
+
+  @override
+  String get channels_scanQrCode => 'Skanna en QR-kod';
+
+  @override
+  String get channels_scanQrCodeComingSoon => 'Kommer snart';
+
+  @override
+  String get channels_enterHashtag => 'Ange hashtag';
+
+  @override
+  String get channels_hashtagHint => 't.ex. #team';
 
   @override
   String get chat_noMessages => 'Inga meddelanden ännu';
@@ -1131,6 +1191,24 @@ class AppLocalizationsSv extends AppLocalizations {
   String chat_unread(int count) {
     return 'Olästa: $count';
   }
+
+  @override
+  String get chat_openLink => 'Öppna länk?';
+
+  @override
+  String get chat_openLinkConfirmation =>
+      'Vill du öppna den här länken i din webbläsare?';
+
+  @override
+  String get chat_open => 'Öppna';
+
+  @override
+  String chat_couldNotOpenLink(String url) {
+    return 'Kunde inte öppna länken: $url';
+  }
+
+  @override
+  String get chat_invalidLink => 'Ogiltigt länkformat';
 
   @override
   String get map_title => 'Nodkarta';
@@ -1458,6 +1536,10 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get login_failedMessage =>
+      'Inloggning misslyckades. Antingen är lösenordet fel eller så går det inte att nå repeatern.';
+
+  @override
   String get common_reload => 'Ladda om';
 
   @override
@@ -1526,6 +1608,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get repeater_management => 'Återuppspelarens Hantering';
 
   @override
+  String get room_management => 'Rumserverhantering';
+
+  @override
   String get repeater_managementTools => 'Administrationsverktyg';
 
   @override
@@ -1547,6 +1632,12 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get repeater_cliSubtitle => 'Skicka kommandon till repetitorn';
+
+  @override
+  String get repeater_neighbours => 'Grannar';
+
+  @override
+  String get repeater_neighboursSubtitle => 'Visa noll hoppgrannar.';
 
   @override
   String get repeater_settings => 'Inställningar';
@@ -2226,6 +2317,33 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get neighbors_receivedData => 'Mottagna grannars data';
+
+  @override
+  String get neighbors_requestTimedOut => 'Grannar begär tidsinställd utskick.';
+
+  @override
+  String neighbors_errorLoading(String error) {
+    return 'Fel vid inläsning av grannar: $error';
+  }
+
+  @override
+  String get neighbors_repeatersNeighbours => 'Upprepar grannar';
+
+  @override
+  String get neighbors_noData => 'Inga grannuppgifter finns tillgängliga.';
+
+  @override
+  String neighbors_unknownContact(String pubkey) {
+    return 'Okänd $pubkey';
+  }
+
+  @override
+  String neighbors_heardAgo(String time) {
+    return 'Hördes: $time sedan';
+  }
+
+  @override
   String get channelPath_title => 'Paketväg';
 
   @override
@@ -2327,6 +2445,175 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Okänt Upprepare';
+
+  @override
+  String get community_title => 'Gemenskap';
+
+  @override
+  String get community_create => 'Skapa Gemenskap';
+
+  @override
+  String get community_createDesc =>
+      'Skapa en ny gemenskap och dela via QR-kod.';
+
+  @override
+  String get community_join => 'Gå med';
+
+  @override
+  String get community_joinTitle => 'Gå med i gemenskapen';
+
+  @override
+  String community_joinConfirmation(String name) {
+    return 'Vill du gå med i communityn \"$name\"?';
+  }
+
+  @override
+  String get community_scanQr => 'Skanna Gemenskapens QR';
+
+  @override
+  String get community_scanInstructions =>
+      'Rikta kameran mot en QR-kod i communityn';
+
+  @override
+  String get community_showQr => 'Visa QR-kod';
+
+  @override
+  String get community_publicChannel => 'Föreningens Offentliga';
+
+  @override
+  String get community_hashtagChannel => 'Community Hashtag';
+
+  @override
+  String get community_name => 'Gemenskapens namn';
+
+  @override
+  String get community_enterName => 'Ange communities namn';
+
+  @override
+  String community_created(String name) {
+    return 'Community \"$name\" har skapats';
+  }
+
+  @override
+  String community_joined(String name) {
+    return 'Medlem i communityn \"$name\"';
+  }
+
+  @override
+  String get community_qrTitle => 'Dela Gemenskap';
+
+  @override
+  String community_qrInstructions(String name) {
+    return 'Skanna denna QR-kod för att gå med i \"$name\"';
+  }
+
+  @override
+  String get community_hashtagPrivacyHint =>
+      'Community-hashtagkanaler kan endast nås av medlemmar i communityn';
+
+  @override
+  String get community_invalidQrCode => 'Ogiltig community QR-kod';
+
+  @override
+  String get community_alreadyMember => 'Är redan medlem';
+
+  @override
+  String community_alreadyMemberMessage(String name) {
+    return 'Du är redan medlem av \"$name\".';
+  }
+
+  @override
+  String get community_addPublicChannel =>
+      'Lägg till Gemenskapskanal (Offentlig)';
+
+  @override
+  String get community_addPublicChannelHint =>
+      'Lägg automatiskt till den offentliga kanalen för denna community';
+
+  @override
+  String get community_noCommunities => 'Inga gemenskaper har anslutats ännu';
+
+  @override
+  String get community_scanOrCreate =>
+      'Skanna en QR-kod eller skapa en community för att komma igång';
+
+  @override
+  String get community_manageCommunities => 'Hantera Gemenskaper';
+
+  @override
+  String get community_delete => 'Lämna Gemenskap';
+
+  @override
+  String community_deleteConfirm(String name) {
+    return 'Lämna \"$name\"?';
+  }
+
+  @override
+  String community_deleteChannelsWarning(int count) {
+    return 'Detta kommer också att radera $count kanal/kanaler och deras meddelanden.';
+  }
+
+  @override
+  String community_deleted(String name) {
+    return 'Lämnade community \"$name\"';
+  }
+
+  @override
+  String get community_regenerateSecret => 'Regenerera hemlig kod';
+
+  @override
+  String community_regenerateSecretConfirm(String name) {
+    return 'Regenerera den hemliga nyckeln för \"$name\"? Alla medlemmar måste scanna den nya QR-koden för att fortsätta kommunicera.';
+  }
+
+  @override
+  String get community_regenerate => 'Regenerera';
+
+  @override
+  String community_secretRegenerated(String name) {
+    return 'Lösenord återskapad för \"$name\"';
+  }
+
+  @override
+  String get community_updateSecret => 'Uppdatera hemlighet';
+
+  @override
+  String community_secretUpdated(String name) {
+    return 'Hemlighet uppdaterad för \"$name\"';
+  }
+
+  @override
+  String community_scanToUpdateSecret(String name) {
+    return 'Skanna den nya QR-koden för att uppdatera hemligheten för \"$name\"';
+  }
+
+  @override
+  String get community_addHashtagChannel => 'Lägg till Gemenskapens Hashtag';
+
+  @override
+  String get community_addHashtagChannelDesc =>
+      'Lägg till en hashtag-kanal för denna community';
+
+  @override
+  String get community_selectCommunity => 'Välj Gemenskap';
+
+  @override
+  String get community_regularHashtag => 'Vanlig Hash Tag';
+
+  @override
+  String get community_regularHashtagDesc =>
+      'Offentlig hashtag (alla kan gå med)';
+
+  @override
+  String get community_communityHashtag => 'Community Hashtag';
+
+  @override
+  String get community_communityHashtagDesc => 'Endast för medlemmar';
+
+  @override
+  String community_forCommunity(String name) {
+    return 'För $name';
+  }
 
   @override
   String get listFilter_tooltip => 'Filtrera och sortera';

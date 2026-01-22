@@ -604,6 +604,18 @@
       }
     }
   },
+  "chat_openLink": "Otworzyć link?",
+  "chat_openLinkConfirmation": "Czy chcesz otworzyć ten link w przeglądarce?",
+  "chat_open": "Otwórz",
+  "chat_couldNotOpenLink": "Nie można otworzyć linku: {url}",
+  "@chat_couldNotOpenLink": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "chat_invalidLink": "Nieprawidłowy format linku",
   "map_title": "Mapa węzłów",
   "map_noNodesWithLocation": "Brak węzłów z danymi lokalizacyjnymi",
   "map_nodesNeedGps": "Węzły muszą udostępniać swoje współrzędne GPS,\naby pojawić się na mapie.",
@@ -821,6 +833,7 @@
       }
     }
   },
+  "login_failedMessage": "Logowanie nie powiodło się. Hasło jest nieprawidłowe albo repeater jest nieosiągalny.",
   "common_reload": "Ponownie załadować",
   "common_clear": "Wyczyść",
   "path_currentPath": "Aktualny ścieżka: {path}",
@@ -1335,5 +1348,190 @@
   "listFilter_repeaters": "Powtarzacze",
   "listFilter_roomServers": "Serwery pokoju",
   "listFilter_unreadOnly": "Tylko nieprzeczytane",
-  "listFilter_newGroup": "Nowa grupa"
+  "listFilter_newGroup": "Nowa grupa",
+  "@neighbors_errorLoading": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "repeater_neighbours": "Sąsiedzi",
+  "repeater_neighboursSubtitle": "Wyświetl sąsiedztwo zerowych hopów.",
+  "neighbors_receivedData": "Otrzymano dane sąsiedztwa",
+  "neighbors_requestTimedOut": "Sąsiedzi proszą o wyłączenie timingu.",
+  "neighbors_errorLoading": "Błąd podczas ładowania sąsiadów: {error}",
+  "neighbors_repeatersNeighbours": "Powtarzacze Sąsiedzi",
+  "neighbors_noData": "Brak danych dotyczących sąsiadów.",
+  "channels_joinPrivateChannelDesc": "Ręcznie wprowadź klucz tajny.",
+  "channels_createPrivateChannel": "Utwórz Prywatny Kanał",
+  "channels_createPrivateChannelDesc": "Zabezpieczone kluczem szyfrowym.",
+  "channels_joinPrivateChannel": "Dołącz do Prywatnego Kanału",
+  "channels_joinPublicChannel": "Dołącz do kanału publicznego.",
+  "channels_joinPublicChannelDesc": "Każdy może dołączyć do tego kanału.",
+  "channels_joinHashtagChannel": "Dołącz do kanału oznaczanego hashtagiem",
+  "channels_joinHashtagChannelDesc": "Każdy może dołączyć do kanałów z hashtagami.",
+  "channels_scanQrCode": "Skanuj kod QR",
+  "channels_scanQrCodeComingSoon": "Wkrótce",
+  "channels_enterHashtag": "Wprowadź hashtag",
+  "channels_hashtagHint": "np. #zespół",
+  "@neighbors_unknownContact": {
+    "placeholders": {
+      "pubkey": {
+        "type": "String"
+      }
+    }
+  },
+  "@neighbors_heardAgo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "neighbors_heardAgo": "Usłyszano: {time} temu",
+  "neighbors_unknownContact": "Nieznana {pubkey}",
+  "settings_locationGPSEnable": "Włącz GPS",
+  "settings_locationGPSEnableSubtitle": "Włącza automatyczne aktualizowanie pozycji za pomocą GPS.",
+  "settings_locationIntervalSec": "Interwał dla GPS (Sekundy)",
+  "settings_locationIntervalInvalid": "Interwał musi wynosić co najmniej 60 sekund i mniej niż 86400 sekund.",
+  "contacts_manageRoom": "Zarządzaj Serwerem Pokoju",
+  "room_management": "Zarządzanie Serwerem Pokoju",
+  "@community_joinConfirmation": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_created": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_joined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_qrInstructions": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_alreadyMemberMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_deleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_deleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_forCommunity": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "community_createDesc": "Utwórz nową społeczność i udostępnij za pomocą kodu QR.",
+  "community_title": "Społeczność",
+  "community_create": "Utwórz Społeczność",
+  "common_ok": "OK",
+  "community_join": "Dołącz",
+  "community_joinTitle": "Dołącz do społeczności",
+  "community_joinConfirmation": "Czy chcesz dołączyć do społeczności \"{name}\"?",
+  "community_scanQr": "Skanuj QR kod społeczności",
+  "community_scanInstructions": "Skieruj kamerę w kierunku kodu QR społeczności.",
+  "community_showQr": "Pokaż kod QR",
+  "community_publicChannel": "Społeczność Publiczna",
+  "community_hashtagChannel": "Hashtag Społeczności",
+  "community_name": "Nazwa Społeczności",
+  "community_enterName": "Wprowadź nazwę społeczności",
+  "community_created": "Społeczność \"{name}\" została utworzona",
+  "community_joined": "Dołączył do społeczności \"{name}\"",
+  "community_qrTitle": "Dziel się Społecznością",
+  "community_qrInstructions": "Skanuj ten kod QR, aby dołączyć {name}",
+  "community_hashtagPrivacyHint": "Kanały hashtagowe społeczności są dostępne tylko dla członków społeczności",
+  "community_invalidQrCode": "Nieprawidłowy kod QR społeczności.",
+  "community_alreadyMember": "Już jesteś członkiem.",
+  "community_alreadyMemberMessage": "Jesteś już członkiem \"{name}\".",
+  "community_addPublicChannel": "Dodaj Kanał Publiczny Społeczności",
+  "community_addPublicChannelHint": "Automatycznie dodaj kanał publiczny dla tej społeczności.",
+  "community_noCommunities": "Nie dołączono jeszcze żadnych społeczności.",
+  "community_scanOrCreate": "Skanuj kod QR lub utwórz społeczność, aby zacząć.",
+  "community_manageCommunities": "Zarządzaj Grupami",
+  "community_delete": "Opuszczenie Społeczności",
+  "community_deleteConfirm": "Opuścić \"{name}\"?",
+  "community_deleteChannelsWarning": "Spowoduje to również usunięcie {count} kanału/kanałów i ich wiadomości.",
+  "@community_deleteChannelsWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "community_deleted": "Opuszczono społeczność \"{name}\"",
+  "community_addHashtagChannel": "Dodaj hashtag społeczności",
+  "community_addHashtagChannelDesc": "Dodaj kanał z hashtagiem dla tej społeczności",
+  "community_selectCommunity": "Wybierz społeczność",
+  "community_regularHashtag": "Hashtag regular",
+  "community_regularHashtagDesc": "Publiczny hashtag (każdy może dołączyć)",
+  "community_communityHashtag": "Hashtag Społeczności",
+  "community_communityHashtagDesc": "Dostępne tylko dla członków społeczności",
+  "community_forCommunity": "Dla {name}",
+  "@community_regenerateSecretConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_secretRegenerated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_secretUpdated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_scanToUpdateSecret": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "community_regenerate": "Zregeneruj",
+  "community_secretRegenerated": "Hasło ponownie wygenerowane dla \"{name}\"",
+  "community_regenerateSecret": "Zregeneruj sekret",
+  "community_regenerateSecretConfirm": "Regeneruj tajny klucz dla \"{name}\"? Wszyscy członkowie będą musieli zeskanować nowy kod QR, aby kontynuować komunikację.",
+  "community_scanToUpdateSecret": "Skanuj nowy kod QR, aby zaktualizować sekret dla \"{name}\"",
+  "community_secretUpdated": "Hasło zaktualizowane dla \"{name}\"",
+  "community_updateSecret": "Zaktualizuj tajny klucz"
 }

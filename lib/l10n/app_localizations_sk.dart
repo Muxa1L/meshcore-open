@@ -24,6 +24,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get common_cancel => 'Zrušiť';
 
   @override
+  String get common_ok => 'OK\nDobre';
+
+  @override
   String get common_connect => 'Pripojiť';
 
   @override
@@ -199,6 +202,20 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get settings_locationInvalid => 'Neplatná šírka alebo dĺžka.';
+
+  @override
+  String get settings_locationGPSEnable => 'Aktivovať GPS';
+
+  @override
+  String get settings_locationGPSEnableSubtitle =>
+      'Povolí automatické aktualizovanie polohy pomocou GPS.';
+
+  @override
+  String get settings_locationIntervalSec => 'Interval pre GPS (Sekundy)';
+
+  @override
+  String get settings_locationIntervalInvalid =>
+      'Interval musí byť aspoň 60 sekúnd a menej ako 86400 sekúnd.';
 
   @override
   String get settings_latitude => 'Súradnica';
@@ -643,6 +660,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get contacts_manageRepeater => 'Spravovať opakované zoznamy';
 
   @override
+  String get contacts_manageRoom => 'Spravovať server miestnosti';
+
+  @override
   String get contacts_roomLogin => 'Prihlásenie do miestnosti';
 
   @override
@@ -823,6 +843,45 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Nezriadené';
+
+  @override
+  String get channels_createPrivateChannel => 'Vytvorte súkromný kanál';
+
+  @override
+  String get channels_createPrivateChannelDesc =>
+      'Zabezpečené pomocou tajného kľúča.';
+
+  @override
+  String get channels_joinPrivateChannel => 'Pripojiť sa k súkromnému kanálu';
+
+  @override
+  String get channels_joinPrivateChannelDesc => 'Ručne zadajte tajný kľúč.';
+
+  @override
+  String get channels_joinPublicChannel => 'Pripojte sa k verejnému kanálu';
+
+  @override
+  String get channels_joinPublicChannelDesc =>
+      'Któvek sátó na tutó kanalizovát.';
+
+  @override
+  String get channels_joinHashtagChannel => 'Pripojte sa k Hashtag Kanálu';
+
+  @override
+  String get channels_joinHashtagChannelDesc =>
+      'Ktoekolikoľvek sa môže pridať do hashtag kanálov.';
+
+  @override
+  String get channels_scanQrCode => 'Skenujte QR kód';
+
+  @override
+  String get channels_scanQrCodeComingSoon => 'Čoskoro';
+
+  @override
+  String get channels_enterHashtag => 'Zadajte hashtag';
+
+  @override
+  String get channels_hashtagHint => 'napr. #tím';
 
   @override
   String get chat_noMessages => 'Zatiaľ žiadne správy.';
@@ -1061,7 +1120,7 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get chat_clearPathSubtitle =>
-      'Znovu nájsť vynútene pri nasledujacej pošlite';
+      'Znovu nájsť vynútene pri nasledujúcej pošlite';
 
   @override
   String get chat_pathCleared =>
@@ -1140,6 +1199,24 @@ class AppLocalizationsSk extends AppLocalizations {
   String chat_unread(int count) {
     return 'Nezriadené: $count';
   }
+
+  @override
+  String get chat_openLink => 'Otvoriť odkaz?';
+
+  @override
+  String get chat_openLinkConfirmation =>
+      'Chcete otvoriť tento odkaz v prehliadači?';
+
+  @override
+  String get chat_open => 'Otvoriť';
+
+  @override
+  String chat_couldNotOpenLink(String url) {
+    return 'Nepodarilo sa otvoriť odkaz: $url';
+  }
+
+  @override
+  String get chat_invalidLink => 'Neplatný formát odkazu';
 
   @override
   String get map_title => 'Mapa uzlov';
@@ -1469,6 +1546,10 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
+  String get login_failedMessage =>
+      'Prihlásenie zlyhalo. Heslo je nesprávne alebo je opakovač nedostupný.';
+
+  @override
   String get common_reload => 'Načítať';
 
   @override
@@ -1538,6 +1619,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get repeater_management => 'Správa opakérov';
 
   @override
+  String get room_management => 'Správa servera miestnosti';
+
+  @override
   String get repeater_managementTools => 'Nástroje na správu';
 
   @override
@@ -1559,6 +1643,12 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get repeater_cliSubtitle => 'Pošlite príkazy opakovaču';
+
+  @override
+  String get repeater_neighbours => 'Súsezný';
+
+  @override
+  String get repeater_neighboursSubtitle => 'Zobraziť susedné body bez skokov.';
 
   @override
   String get repeater_settings => 'Nastavenia';
@@ -2238,6 +2328,34 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
+  String get neighbors_receivedData => 'Obdielo dáta suseda';
+
+  @override
+  String get neighbors_requestTimedOut => 'Súďia žiadajú o časové ukončenie.';
+
+  @override
+  String neighbors_errorLoading(String error) {
+    return 'Chyba pri načítaní susedov: $error';
+  }
+
+  @override
+  String get neighbors_repeatersNeighbours => 'Opakovadlá Súsezná';
+
+  @override
+  String get neighbors_noData =>
+      'Nie je dostupná žiadna informácia o susedoch.';
+
+  @override
+  String neighbors_unknownContact(String pubkey) {
+    return 'Neznáma $pubkey';
+  }
+
+  @override
+  String neighbors_heardAgo(String time) {
+    return 'Počuli sme to: $time dozadu';
+  }
+
+  @override
   String get channelPath_title => 'Cesta balíka';
 
   @override
@@ -2339,6 +2457,175 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Neznáme opakovače';
+
+  @override
+  String get community_title => 'Komunita';
+
+  @override
+  String get community_create => 'Vytvoriť komunitu';
+
+  @override
+  String get community_createDesc =>
+      'Vytvorte novú komunitu a zdieľajte cez QR kód.';
+
+  @override
+  String get community_join => 'Pripojiť';
+
+  @override
+  String get community_joinTitle => 'Pripojiť sa k spoločenstvu';
+
+  @override
+  String community_joinConfirmation(String name) {
+    return 'Chceš sa pridať do komunity \"$name\"?';
+  }
+
+  @override
+  String get community_scanQr => 'Skontrolujte komunitný QR kód';
+
+  @override
+  String get community_scanInstructions =>
+      'Zamerte kameru na komunitný QR kód.';
+
+  @override
+  String get community_showQr => 'Zobraziť QR kód';
+
+  @override
+  String get community_publicChannel => 'Komunita verejná';
+
+  @override
+  String get community_hashtagChannel => 'Komunitný Hashtag';
+
+  @override
+  String get community_name => 'Komunita';
+
+  @override
+  String get community_enterName => 'Zadajte názov komunity';
+
+  @override
+  String community_created(String name) {
+    return 'Komunita \"$name\" vytvorená';
+  }
+
+  @override
+  String community_joined(String name) {
+    return 'Pripojená komunita \"$name\"';
+  }
+
+  @override
+  String get community_qrTitle => 'Zdieľť komunitu';
+
+  @override
+  String community_qrInstructions(String name) {
+    return 'Skenejte tento QR kód, aby ste sa pripojili k $name.';
+  }
+
+  @override
+  String get community_hashtagPrivacyHint =>
+      'Hashtagové kanály komunity sú prístupné len členom komunity';
+
+  @override
+  String get community_invalidQrCode => 'Neplatná QR kód komunity.';
+
+  @override
+  String get community_alreadyMember => 'Už ste členom.';
+
+  @override
+  String community_alreadyMemberMessage(String name) {
+    return 'Vy ste už členom \"$name\".';
+  }
+
+  @override
+  String get community_addPublicChannel => 'Pridať verejný komunikačný kanál';
+
+  @override
+  String get community_addPublicChannelHint =>
+      'Automaticky prida verejný kanál pre túto komunitu.';
+
+  @override
+  String get community_noCommunities =>
+      'Zatiaľ ste sa nepripojili k žiadnej komunite';
+
+  @override
+  String get community_scanOrCreate =>
+      'Skene QR kód alebo vytvor komunitu na začiatok.';
+
+  @override
+  String get community_manageCommunities => 'Spravovať komunity';
+
+  @override
+  String get community_delete => 'Nechajte komunitu';
+
+  @override
+  String community_deleteConfirm(String name) {
+    return 'Opustiť \"$name\"?';
+  }
+
+  @override
+  String community_deleteChannelsWarning(int count) {
+    return 'Tým sa tiež vymaže $count kanál/kanálov a ich správy.';
+  }
+
+  @override
+  String community_deleted(String name) {
+    return 'Opustená komunita \"$name\"';
+  }
+
+  @override
+  String get community_regenerateSecret => 'Zobraziť nový tajný kód';
+
+  @override
+  String community_regenerateSecretConfirm(String name) {
+    return 'Znovu vygenerovať tajný kľúč pre \"$name\"? Všetci členovia budú musieť skanovať nový QR kód, aby mohli nadviazať komunikáciu.';
+  }
+
+  @override
+  String get community_regenerate => 'Znovu vygenerovať';
+
+  @override
+  String community_secretRegenerated(String name) {
+    return 'Záznam pre \"$name\" bol regenerovaný tajne';
+  }
+
+  @override
+  String get community_updateSecret => 'Aktualizovať tajné heslo';
+
+  @override
+  String community_secretUpdated(String name) {
+    return 'Zmena tajnej slova pre \"$name\"';
+  }
+
+  @override
+  String community_scanToUpdateSecret(String name) {
+    return 'Skáňte nový QR kód na aktualizáciu tajného hesla pre \"$name\"';
+  }
+
+  @override
+  String get community_addHashtagChannel => 'Pridať komunitný hashtag';
+
+  @override
+  String get community_addHashtagChannelDesc =>
+      'Pridajte hashtagový kanál pre túto komunitu.';
+
+  @override
+  String get community_selectCommunity => 'Vyberte komunitu';
+
+  @override
+  String get community_regularHashtag => 'Zvyčajný hashtag';
+
+  @override
+  String get community_regularHashtagDesc =>
+      'Veľký hashtag (ktočokoľvek sa môže pridať)';
+
+  @override
+  String get community_communityHashtag => 'Komunitný Hashtag';
+
+  @override
+  String get community_communityHashtagDesc => 'Špecifické pre členov komunity';
+
+  @override
+  String community_forCommunity(String name) {
+    return 'Pre $name';
+  }
 
   @override
   String get listFilter_tooltip => 'Filtrovať a triediť';

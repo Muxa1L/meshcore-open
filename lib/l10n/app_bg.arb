@@ -604,6 +604,18 @@
       }
     }
   },
+  "chat_openLink": "Отваряне на връзката?",
+  "chat_openLinkConfirmation": "Искате ли да отворите тази връзка в браузъра си?",
+  "chat_open": "Отвори",
+  "chat_couldNotOpenLink": "Не можа да се отвори връзката: {url}",
+  "@chat_couldNotOpenLink": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "chat_invalidLink": "Невалиден формат на връзката",
   "map_title": "Карта на възлите",
   "map_noNodesWithLocation": "Няма възли с данни за местоположение.",
   "map_nodesNeedGps": "Възлагат се възлозите да споделят техните GPS координати,\nза да се появят на картата.",
@@ -821,6 +833,7 @@
       }
     }
   },
+  "login_failedMessage": "Входът не беше успешен. Или паролата е грешна, или повторителят е недостъпен.",
   "common_reload": "Презареди",
   "common_clear": "Изчисти",
   "path_currentPath": "Текущ път: {path}",
@@ -1335,5 +1348,190 @@
   "listFilter_repeaters": "Повторители",
   "listFilter_roomServers": "Сървъри на стая",
   "listFilter_unreadOnly": "Само непрочетените",
-  "listFilter_newGroup": "Нова група"
+  "listFilter_newGroup": "Нова група",
+  "@neighbors_errorLoading": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "repeater_neighboursSubtitle": "Преглед на съседни възли с нулев скок.",
+  "repeater_neighbours": "Съседи",
+  "neighbors_receivedData": "Получени данни за съседи",
+  "neighbors_requestTimedOut": "Съседите поискат изтичане на време.",
+  "neighbors_errorLoading": "Грешка при зареждане на съседи: {error}",
+  "neighbors_repeatersNeighbours": "Повторители Съседи",
+  "neighbors_noData": "Няма налични данни за съседи.",
+  "channels_createPrivateChannel": "Създай Частен Канал",
+  "channels_joinPrivateChannel": "Присъедини се към Частен Канал",
+  "channels_createPrivateChannelDesc": "Защитено с таен ключ.",
+  "channels_joinPrivateChannelDesc": "Ръчно въведете таен ключ.",
+  "channels_joinPublicChannel": "Присъединете се към Публичния канал",
+  "channels_joinPublicChannelDesc": "Всеки може да се присъедини към този канал.",
+  "channels_joinHashtagChannel": "Присъедини се към Хаштаг Канал",
+  "channels_joinHashtagChannelDesc": "Всеки може да се присъедини към хаштаговите канали.",
+  "channels_scanQrCode": "Сканирайте QR код",
+  "channels_scanQrCodeComingSoon": "Ще излезе скоро",
+  "channels_enterHashtag": "Въведете хаштаг",
+  "channels_hashtagHint": "напр. #отбор",
+  "@neighbors_unknownContact": {
+    "placeholders": {
+      "pubkey": {
+        "type": "String"
+      }
+    }
+  },
+  "@neighbors_heardAgo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "neighbors_heardAgo": "Слушано преди {time}.",
+  "neighbors_unknownContact": "Неизвестна {pubkey}",
+  "settings_locationIntervalSec": "Интервал за GPS (Секунди)",
+  "settings_locationGPSEnable": "Активиране на GPS",
+  "settings_locationGPSEnableSubtitle": "Активирайте автоматичното актуализиране на местоположението чрез GPS.",
+  "settings_locationIntervalInvalid": "Интервалът трябва да бъде поне 60 секунди и по-малко от 86400 секунди.",
+  "room_management": "Управление на сървъра за стая",
+  "contacts_manageRoom": "Управление на сървър за стая",
+  "@community_joinConfirmation": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_created": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_joined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_qrInstructions": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_alreadyMemberMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_deleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_deleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_forCommunity": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "community_title": "Общност",
+  "common_ok": "Добре",
+  "community_createDesc": "Създайте нова общност и я споделете чрез QR код.",
+  "community_create": "Създай общност",
+  "community_joinTitle": "Присъедини се към общността",
+  "community_joinConfirmation": "Искате ли да се присъедините към общността \"{name}\"?",
+  "community_scanQr": "Сканирайте QR кода на общността",
+  "community_scanInstructions": "Насочете камерата към QR код на общността",
+  "community_showQr": "Покажи QR код",
+  "community_publicChannel": "Обществено общност",
+  "community_hashtagChannel": "Хаштаг на общността",
+  "community_name": "Име на общността",
+  "community_enterName": "Въведете име на общността",
+  "community_created": "Общността \"{name}\" е създадена",
+  "community_joined": "Присъединено общност \"{name}\"",
+  "community_qrTitle": "Споделяне в общността",
+  "community_join": "Присъедини се",
+  "community_qrInstructions": "Сканирайте този QR код, за да се присъедините към {name}.",
+  "community_hashtagPrivacyHint": "Хаштаг каналите на общността са достъпни само за членове на общността",
+  "community_invalidQrCode": "Невалиден QR код на общността",
+  "community_alreadyMember": "Вече съм член",
+  "community_alreadyMemberMessage": "Вие вече сте член на \"{name}\".",
+  "community_addPublicChannel": "Добави публичен общностен канал",
+  "community_addPublicChannelHint": "Автоматично добавете публичния канал за тази общност.",
+  "community_noCommunities": "Няма присъединени общности още.",
+  "community_scanOrCreate": "Сканирайте QR код или създайте общност, за да започнете.",
+  "community_manageCommunities": "Управление на общности",
+  "community_delete": "Напусни общността",
+  "community_deleteConfirm": "Напускате \"{name}\"?",
+  "community_deleteChannelsWarning": "Това ще изтрие също {count} канал(а) и техните съобщения.",
+  "@community_deleteChannelsWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "community_deleted": "Остави общността \"{name}\"",
+  "community_addHashtagChannel": "Добави общностен хаштаг",
+  "community_addHashtagChannelDesc": "Добавете хаштаг канал за тази общност",
+  "community_selectCommunity": "Изберете общност",
+  "community_regularHashtag": "Обикновен хаштаг",
+  "community_regularHashtagDesc": "Общ хаштаг (всеки може да се присъедини)",
+  "community_communityHashtag": "Общностен хаштаг",
+  "community_communityHashtagDesc": "Само за членове на общността",
+  "community_forCommunity": "За {name}",
+  "@community_regenerateSecretConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_secretRegenerated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_secretUpdated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@community_scanToUpdateSecret": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "community_regenerateSecretConfirm": "Регенерация на секретния ключ за \"{name}\"? Всички членове ще трябва да сканират новия QR код, за да продължат комуникацията.",
+  "community_secretRegenerated": "Секретно презареждане за \"{name}\"",
+  "community_regenerateSecret": "Регенерейрай секрет",
+  "community_regenerate": "Регенерация",
+  "community_updateSecret": "Актуализирай тайна",
+  "community_scanToUpdateSecret": "Сканьорвайте новия QR код, за да актуализирате секрета за \"{name}\"",
+  "community_secretUpdated": "Секретно обновено за \"{name}\""
 }

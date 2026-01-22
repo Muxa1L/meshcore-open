@@ -273,6 +273,9 @@ class _MapScreenState extends State<MapScreen> {
                           initialZoom: initialZoom,
                           minZoom: 2.0,
                           maxZoom: 18.0,
+                          interactionOptions: InteractionOptions(
+                            flags: ~InteractiveFlag.rotate
+                          ),
                           onTap: (_, latLng) {
                             if (_isSelectingPoi) {
                               setState(() {
@@ -388,8 +391,9 @@ class _MapScreenState extends State<MapScreen> {
       if (!contact.hasLocation) continue;
 
       // Apply node type filters
-      if (contact.type == advTypeRepeater && !settings.mapShowRepeaters)
+      if (contact.type == advTypeRepeater && !settings.mapShowRepeaters) {
         continue;
+      }
       if (contact.type == advTypeChat && !settings.mapShowChatNodes) continue;
       if (contact.type != advTypeChat &&
           contact.type != advTypeRepeater &&

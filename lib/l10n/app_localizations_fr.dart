@@ -24,6 +24,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get common_cancel => 'Annuler';
 
   @override
+  String get common_ok => 'OK';
+
+  @override
   String get common_connect => 'Connecter';
 
   @override
@@ -199,6 +202,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settings_locationInvalid => 'Latitude ou longitude invalide.';
+
+  @override
+  String get settings_locationGPSEnable => 'Habilita GPS';
+
+  @override
+  String get settings_locationGPSEnableSubtitle =>
+      'Habilita la actualización automática de la ubicación mediante GPS.';
+
+  @override
+  String get settings_locationIntervalSec => 'Intervalo pour GPS (Segundos)';
+
+  @override
+  String get settings_locationIntervalInvalid =>
+      'El intervalo debe ser de al menos 60 segundos y menor que 86400 segundos.';
 
   @override
   String get settings_latitude => 'Latitude';
@@ -650,6 +667,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contacts_manageRepeater => 'Gérer le répétiteur';
 
   @override
+  String get contacts_manageRoom => 'Gestionar Servidor de Habitación';
+
+  @override
   String get contacts_roomLogin => 'Connexion Salle';
 
   @override
@@ -829,6 +849,46 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Non lu';
+
+  @override
+  String get channels_createPrivateChannel => 'Créer un Canal Privé';
+
+  @override
+  String get channels_createPrivateChannelDesc =>
+      'Sécurisé avec une clé secrète.';
+
+  @override
+  String get channels_joinPrivateChannel => 'Rejoindre un Canal Privé';
+
+  @override
+  String get channels_joinPrivateChannelDesc =>
+      'Entrer manuellement une clé secrète.';
+
+  @override
+  String get channels_joinPublicChannel => 'Rejoindre le canal public';
+
+  @override
+  String get channels_joinPublicChannelDesc =>
+      'Tout le monde peut rejoindre ce canal.';
+
+  @override
+  String get channels_joinHashtagChannel => 'Rejoindre un Canal Hashtag';
+
+  @override
+  String get channels_joinHashtagChannelDesc =>
+      'N\'importe qui peut rejoindre les canaux #hashtag.';
+
+  @override
+  String get channels_scanQrCode => 'Scanner un code QR';
+
+  @override
+  String get channels_scanQrCodeComingSoon => 'Bientôt disponible';
+
+  @override
+  String get channels_enterHashtag => 'Entrez le hashtag';
+
+  @override
+  String get channels_hashtagHint => 'ex. #équipe';
 
   @override
   String get chat_noMessages => 'Aucun message pour le moment.';
@@ -1148,6 +1208,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String chat_unread(int count) {
     return 'Non lu : $count';
   }
+
+  @override
+  String get chat_openLink => 'Ouvrir le lien ?';
+
+  @override
+  String get chat_openLinkConfirmation =>
+      'Voulez-vous ouvrir ce lien dans votre navigateur ?';
+
+  @override
+  String get chat_open => 'Ouvrir';
+
+  @override
+  String chat_couldNotOpenLink(String url) {
+    return 'Impossible d\'ouvrir le lien : $url';
+  }
+
+  @override
+  String get chat_invalidLink => 'Format de lien invalide';
 
   @override
   String get map_title => 'Carte des nœuds';
@@ -1479,6 +1557,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get login_failedMessage =>
+      'Connexion échouée. Soit le mot de passe est incorrect, soit le relais est injoignable.';
+
+  @override
   String get common_reload => 'Recharger';
 
   @override
@@ -1548,6 +1630,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get repeater_management => 'Gestion des répétiteurs';
 
   @override
+  String get room_management => 'Administración del Servidor de Habitación';
+
+  @override
   String get repeater_managementTools => 'Outils de Gestion';
 
   @override
@@ -1569,6 +1654,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get repeater_cliSubtitle => 'Envoyer des commandes au répétiteur';
+
+  @override
+  String get repeater_neighbours => 'Voisins';
+
+  @override
+  String get repeater_neighboursSubtitle =>
+      'Afficher les voisins de saut nuls.';
 
   @override
   String get repeater_settings => 'Paramètres';
@@ -2263,6 +2355,34 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get neighbors_receivedData => 'Données des voisins reçues';
+
+  @override
+  String get neighbors_requestTimedOut => 'Les voisins demandent un délai.';
+
+  @override
+  String neighbors_errorLoading(String error) {
+    return 'Erreur lors du chargement des voisins : $error';
+  }
+
+  @override
+  String get neighbors_repeatersNeighbours => 'Répéteurs Voisins';
+
+  @override
+  String get neighbors_noData =>
+      'Aucune donnée concernant les voisins disponible.';
+
+  @override
+  String neighbors_unknownContact(String pubkey) {
+    return 'Clé publique inconnue $pubkey';
+  }
+
+  @override
+  String neighbors_heardAgo(String time) {
+    return 'Écouté : $time auparavant';
+  }
+
+  @override
   String get channelPath_title => 'Chemin de paquet';
 
   @override
@@ -2364,6 +2484,177 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Répéteur Inconnu';
+
+  @override
+  String get community_title => 'Communauté';
+
+  @override
+  String get community_create => 'Créer une Communauté';
+
+  @override
+  String get community_createDesc =>
+      'Créer une nouvelle communauté et la partager via QR code.';
+
+  @override
+  String get community_join => 'Rejoindre';
+
+  @override
+  String get community_joinTitle => 'Rejoindre la communauté';
+
+  @override
+  String community_joinConfirmation(String name) {
+    return 'Souhaitez-vous rejoindre la communauté \"$name\" ?';
+  }
+
+  @override
+  String get community_scanQr => 'Scanner la communauté QR';
+
+  @override
+  String get community_scanInstructions =>
+      'Pointez l\'appareil photo vers un code QR communautaire.';
+
+  @override
+  String get community_showQr => 'Afficher le QR Code';
+
+  @override
+  String get community_publicChannel => 'Communauté Publique';
+
+  @override
+  String get community_hashtagChannel => 'Hashtag Communauté';
+
+  @override
+  String get community_name => 'Nom de la communauté';
+
+  @override
+  String get community_enterName => 'Entrez le nom de la communauté';
+
+  @override
+  String community_created(String name) {
+    return 'Communauté \"$name\" créée';
+  }
+
+  @override
+  String community_joined(String name) {
+    return 'Rejoint la communauté \"$name\"';
+  }
+
+  @override
+  String get community_qrTitle => 'Partager Communauté';
+
+  @override
+  String community_qrInstructions(String name) {
+    return 'Scanner ce QR code pour rejoindre $name';
+  }
+
+  @override
+  String get community_hashtagPrivacyHint =>
+      'Les canaux hashtag de la communauté ne sont accessibles qu\'aux membres de la communauté';
+
+  @override
+  String get community_invalidQrCode => 'Code QR de communauté non valide';
+
+  @override
+  String get community_alreadyMember => 'Déjà membre';
+
+  @override
+  String community_alreadyMemberMessage(String name) {
+    return 'Vous êtes déjà membre de \"$name\".';
+  }
+
+  @override
+  String get community_addPublicChannel =>
+      'Ajouter un Canal Public de la Communauté';
+
+  @override
+  String get community_addPublicChannelHint =>
+      'Ajouter automatiquement le canal public pour cette communauté';
+
+  @override
+  String get community_noCommunities =>
+      'Aucun groupe n\'a été rejoint pour le moment.';
+
+  @override
+  String get community_scanOrCreate =>
+      'Scanner un code QR ou créer une communauté pour commencer';
+
+  @override
+  String get community_manageCommunities => 'Gérer les Communautés';
+
+  @override
+  String get community_delete => 'Quitter la communauté';
+
+  @override
+  String community_deleteConfirm(String name) {
+    return 'Quitter \"$name\" ?';
+  }
+
+  @override
+  String community_deleteChannelsWarning(int count) {
+    return 'Cela supprimera également $count canal/canaux et leurs messages.';
+  }
+
+  @override
+  String community_deleted(String name) {
+    return 'Communauté \"$name\" quittée';
+  }
+
+  @override
+  String get community_regenerateSecret => 'Régénérer le secret';
+
+  @override
+  String community_regenerateSecretConfirm(String name) {
+    return 'Régénérer la clé secrète pour \"$name\" ? Tous les membres devront scanner le nouveau code QR pour continuer à communiquer.';
+  }
+
+  @override
+  String get community_regenerate => 'Régénérer';
+
+  @override
+  String community_secretRegenerated(String name) {
+    return 'Mot de passe secret régénéré pour \"$name\"';
+  }
+
+  @override
+  String get community_updateSecret => 'Mettre à jour le secret';
+
+  @override
+  String community_secretUpdated(String name) {
+    return 'Modification secrète mise à jour pour \"$name\"';
+  }
+
+  @override
+  String community_scanToUpdateSecret(String name) {
+    return 'Scanner le nouveau code QR pour mettre à jour le mot de passe pour \"$name\"';
+  }
+
+  @override
+  String get community_addHashtagChannel => 'Ajouter un Hashtag Communauté';
+
+  @override
+  String get community_addHashtagChannelDesc =>
+      'Ajouter un canal hachage pour cette communauté';
+
+  @override
+  String get community_selectCommunity => 'Sélectionner Communauté';
+
+  @override
+  String get community_regularHashtag => 'Hashtag régulier';
+
+  @override
+  String get community_regularHashtagDesc =>
+      'Hashtag public (tout le monde peut rejoindre)';
+
+  @override
+  String get community_communityHashtag => 'Hashtag de la communauté';
+
+  @override
+  String get community_communityHashtagDesc =>
+      'Exclusif aux membres de la communauté';
+
+  @override
+  String community_forCommunity(String name) {
+    return 'Pour $name';
+  }
 
   @override
   String get listFilter_tooltip => 'Filtrer et trier';

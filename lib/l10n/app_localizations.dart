@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get common_cancel;
 
+  /// No description provided for @common_ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get common_ok;
+
   /// No description provided for @common_connect.
   ///
   /// In en, this message translates to:
@@ -467,7 +473,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_locationUpdated.
   ///
   /// In en, this message translates to:
-  /// **'Location updated'**
+  /// **'Location and GPS settings updated'**
   String get settings_locationUpdated;
 
   /// No description provided for @settings_locationBothRequired.
@@ -481,6 +487,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid latitude or longitude.'**
   String get settings_locationInvalid;
+
+  /// No description provided for @settings_locationGPSEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS Enable'**
+  String get settings_locationGPSEnable;
+
+  /// No description provided for @settings_locationGPSEnableSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enables GPS to automatically update location.'**
+  String get settings_locationGPSEnableSubtitle;
+
+  /// No description provided for @settings_locationIntervalSec.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval for GPS (Seconds)'**
+  String get settings_locationIntervalSec;
+
+  /// No description provided for @settings_locationIntervalInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval must be at least 60 seconds, and less than 86400 seconds.'**
+  String get settings_locationIntervalInvalid;
 
   /// No description provided for @settings_latitude.
   ///
@@ -1286,10 +1316,16 @@ abstract class AppLocalizations {
   /// **'Manage Repeater'**
   String get contacts_manageRepeater;
 
+  /// No description provided for @contacts_manageRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Room Server'**
+  String get contacts_manageRoom;
+
   /// No description provided for @contacts_roomLogin.
   ///
   /// In en, this message translates to:
-  /// **'Room Login'**
+  /// **'Room Server Login'**
   String get contacts_roomLogin;
 
   /// No description provided for @contacts_openChat.
@@ -1597,6 +1633,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unread'**
   String get channels_sortUnread;
+
+  /// No description provided for @channels_createPrivateChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a Private Channel'**
+  String get channels_createPrivateChannel;
+
+  /// No description provided for @channels_createPrivateChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Secured with a secret key.'**
+  String get channels_createPrivateChannelDesc;
+
+  /// No description provided for @channels_joinPrivateChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a Private Channel'**
+  String get channels_joinPrivateChannel;
+
+  /// No description provided for @channels_joinPrivateChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manually enter a secret key.'**
+  String get channels_joinPrivateChannelDesc;
+
+  /// No description provided for @channels_joinPublicChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the Public Channel'**
+  String get channels_joinPublicChannel;
+
+  /// No description provided for @channels_joinPublicChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone can join this channel.'**
+  String get channels_joinPublicChannelDesc;
+
+  /// No description provided for @channels_joinHashtagChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a Hashtag Channel'**
+  String get channels_joinHashtagChannel;
+
+  /// No description provided for @channels_joinHashtagChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone can join hashtag channels.'**
+  String get channels_joinHashtagChannelDesc;
+
+  /// No description provided for @channels_scanQrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a QR Code'**
+  String get channels_scanQrCode;
+
+  /// No description provided for @channels_scanQrCodeComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get channels_scanQrCodeComingSoon;
+
+  /// No description provided for @channels_enterHashtag.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter hashtag'**
+  String get channels_enterHashtag;
+
+  /// No description provided for @channels_hashtagHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. #team'**
+  String get channels_hashtagHint;
 
   /// No description provided for @chat_noMessages.
   ///
@@ -2120,6 +2228,36 @@ abstract class AppLocalizations {
   /// **'Unread: {count}'**
   String chat_unread(int count);
 
+  /// No description provided for @chat_openLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Link?'**
+  String get chat_openLink;
+
+  /// No description provided for @chat_openLinkConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to open this link in your browser?'**
+  String get chat_openLinkConfirmation;
+
+  /// No description provided for @chat_open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get chat_open;
+
+  /// No description provided for @chat_couldNotOpenLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link: {url}'**
+  String chat_couldNotOpenLink(String url);
+
+  /// No description provided for @chat_invalidLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid link format'**
+  String get chat_invalidLink;
+
   /// No description provided for @map_title.
   ///
   /// In en, this message translates to:
@@ -2602,7 +2740,7 @@ abstract class AppLocalizations {
   /// No description provided for @login_roomLogin.
   ///
   /// In en, this message translates to:
-  /// **'Room Login'**
+  /// **'Room Server Login'**
   String get login_roomLogin;
 
   /// No description provided for @login_password.
@@ -2688,6 +2826,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login failed: {error}'**
   String login_failed(String error);
+
+  /// No description provided for @login_failedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Either the password is incorrect or the repeater is unreachable.'**
+  String get login_failedMessage;
 
   /// No description provided for @common_reload.
   ///
@@ -2791,6 +2935,12 @@ abstract class AppLocalizations {
   /// **'Repeater Management'**
   String get repeater_management;
 
+  /// No description provided for @room_management.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Server Management'**
+  String get room_management;
+
   /// No description provided for @repeater_managementTools.
   ///
   /// In en, this message translates to:
@@ -2832,6 +2982,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send commands to the repeater'**
   String get repeater_cliSubtitle;
+
+  /// No description provided for @repeater_neighbours.
+  ///
+  /// In en, this message translates to:
+  /// **'Neighbors'**
+  String get repeater_neighbours;
+
+  /// No description provided for @repeater_neighboursSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View zero hop neighbors.'**
+  String get repeater_neighboursSubtitle;
 
   /// No description provided for @repeater_settings.
   ///
@@ -3972,6 +4134,48 @@ abstract class AppLocalizations {
   /// **'{celsius}°C / {fahrenheit}°F'**
   String telemetry_temperatureValue(String celsius, String fahrenheit);
 
+  /// No description provided for @neighbors_receivedData.
+  ///
+  /// In en, this message translates to:
+  /// **'Received Neighbours Data'**
+  String get neighbors_receivedData;
+
+  /// No description provided for @neighbors_requestTimedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Neighbours request timed out.'**
+  String get neighbors_requestTimedOut;
+
+  /// No description provided for @neighbors_errorLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading neighbors: {error}'**
+  String neighbors_errorLoading(String error);
+
+  /// No description provided for @neighbors_repeatersNeighbours.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeaters Neighbours'**
+  String get neighbors_repeatersNeighbours;
+
+  /// No description provided for @neighbors_noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No neighbours data available.'**
+  String get neighbors_noData;
+
+  /// No description provided for @neighbors_unknownContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown {pubkey}'**
+  String neighbors_unknownContact(String pubkey);
+
+  /// No description provided for @neighbors_heardAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard: {time} ago'**
+  String neighbors_heardAgo(String time);
+
   /// No description provided for @channelPath_title.
   ///
   /// In en, this message translates to:
@@ -4139,6 +4343,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown Repeater'**
   String get channelPath_unknownRepeater;
+
+  /// No description provided for @community_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get community_title;
+
+  /// No description provided for @community_create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Community'**
+  String get community_create;
+
+  /// No description provided for @community_createDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new community and share via QR code.'**
+  String get community_createDesc;
+
+  /// No description provided for @community_join.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get community_join;
+
+  /// No description provided for @community_joinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Community'**
+  String get community_joinTitle;
+
+  /// No description provided for @community_joinConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to join the community \"{name}\"?'**
+  String community_joinConfirmation(String name);
+
+  /// No description provided for @community_scanQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Community QR'**
+  String get community_scanQr;
+
+  /// No description provided for @community_scanInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at a community QR code'**
+  String get community_scanInstructions;
+
+  /// No description provided for @community_showQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Show QR Code'**
+  String get community_showQr;
+
+  /// No description provided for @community_publicChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Public'**
+  String get community_publicChannel;
+
+  /// No description provided for @community_hashtagChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Hashtag'**
+  String get community_hashtagChannel;
+
+  /// No description provided for @community_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Name'**
+  String get community_name;
+
+  /// No description provided for @community_enterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter community name'**
+  String get community_enterName;
+
+  /// No description provided for @community_created.
+  ///
+  /// In en, this message translates to:
+  /// **'Community \"{name}\" created'**
+  String community_created(String name);
+
+  /// No description provided for @community_joined.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined community \"{name}\"'**
+  String community_joined(String name);
+
+  /// No description provided for @community_qrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Community'**
+  String get community_qrTitle;
+
+  /// No description provided for @community_qrInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this QR code to join \"{name}\"'**
+  String community_qrInstructions(String name);
+
+  /// No description provided for @community_hashtagPrivacyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Community hashtag channels are only joinable by members of the community'**
+  String get community_hashtagPrivacyHint;
+
+  /// No description provided for @community_invalidQrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid community QR code'**
+  String get community_invalidQrCode;
+
+  /// No description provided for @community_alreadyMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Already a Member'**
+  String get community_alreadyMember;
+
+  /// No description provided for @community_alreadyMemberMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You are already a member of \"{name}\".'**
+  String community_alreadyMemberMessage(String name);
+
+  /// No description provided for @community_addPublicChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Community Public Channel'**
+  String get community_addPublicChannel;
+
+  /// No description provided for @community_addPublicChannelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically add the public channel for this community'**
+  String get community_addPublicChannelHint;
+
+  /// No description provided for @community_noCommunities.
+  ///
+  /// In en, this message translates to:
+  /// **'No communities joined yet'**
+  String get community_noCommunities;
+
+  /// No description provided for @community_scanOrCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a QR code or create a community to get started'**
+  String get community_scanOrCreate;
+
+  /// No description provided for @community_manageCommunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Communities'**
+  String get community_manageCommunities;
+
+  /// No description provided for @community_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Community'**
+  String get community_delete;
+
+  /// No description provided for @community_deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave \"{name}\"?'**
+  String community_deleteConfirm(String name);
+
+  /// No description provided for @community_deleteChannelsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will also delete {count} channel(s) and their messages.'**
+  String community_deleteChannelsWarning(int count);
+
+  /// No description provided for @community_deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Left community \"{name}\"'**
+  String community_deleted(String name);
+
+  /// No description provided for @community_regenerateSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate Secret'**
+  String get community_regenerateSecret;
+
+  /// No description provided for @community_regenerateSecretConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate the secret key for \"{name}\"? All members will need to scan the new QR code to continue communicating.'**
+  String community_regenerateSecretConfirm(String name);
+
+  /// No description provided for @community_regenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate'**
+  String get community_regenerate;
+
+  /// No description provided for @community_secretRegenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret regenerated for \"{name}\"'**
+  String community_secretRegenerated(String name);
+
+  /// No description provided for @community_updateSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Secret'**
+  String get community_updateSecret;
+
+  /// No description provided for @community_secretUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret updated for \"{name}\"'**
+  String community_secretUpdated(String name);
+
+  /// No description provided for @community_scanToUpdateSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the new QR code to update the secret for \"{name}\"'**
+  String community_scanToUpdateSecret(String name);
+
+  /// No description provided for @community_addHashtagChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Community Hashtag'**
+  String get community_addHashtagChannel;
+
+  /// No description provided for @community_addHashtagChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a hashtag channel for this community'**
+  String get community_addHashtagChannelDesc;
+
+  /// No description provided for @community_selectCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Community'**
+  String get community_selectCommunity;
+
+  /// No description provided for @community_regularHashtag.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular Hashtag'**
+  String get community_regularHashtag;
+
+  /// No description provided for @community_regularHashtagDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Public hashtag (anyone can join)'**
+  String get community_regularHashtagDesc;
+
+  /// No description provided for @community_communityHashtag.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Hashtag'**
+  String get community_communityHashtag;
+
+  /// No description provided for @community_communityHashtagDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Private to community members'**
+  String get community_communityHashtagDesc;
+
+  /// No description provided for @community_forCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'For {name}'**
+  String community_forCommunity(String name);
 
   /// No description provided for @listFilter_tooltip.
   ///
